@@ -1,39 +1,35 @@
 import React, { Component } from 'react';
-import {Navbar,Nav,NavDropdown} from 'react-bootstrap';
+import {Link} from 'react-router-dom'
+import {Nav,Navbar,NavDropdown,Button} from 'react-bootstrap'
 
 
 class NavBar extends Component {
 
-    render(props) {
+    render() {
         return (
             <div>
-                <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                    <Navbar.Brand href="/">THE VAULT</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="mr-auto">
-                            <Nav.Link href="/contact">Contact</Nav.Link>
-                            <Nav.Link href="/about">About</Nav.Link>
-                            {/* if user is logged of do not render this part */}
+               <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+                <Navbar.Brand href="/">THE VAULT</Navbar.Brand>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="mr-auto">
+                    <Link to="/contact">Contact</Link>
+                    <Link to="/about" >About</Link>
 
-                            {this.props.loggedInUser? (
-                            <NavDropdown title="My Profile" id="collasible-nav-dropdown">
-                                <NavDropdown title="My Profile" id="collasible-nav-dropdown"></NavDropdown>
-                                <NavDropdown.Item href="/" onClick={this.props.onLogOut}>Logout</NavDropdown.Item>
+                        {this.props.loggedInUser?(
+                            <NavDropdown title="MyProfile" id="collasible-nav-dropdown">
+                                <Button onClick={this.props.onLogOut}>Logout</Button>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/user/:id">Profile</NavDropdown.Item>
-                            </NavDropdown>)
-                            :(<></>)}
-                        </Nav>
-                    </Navbar.Collapse>
+                                <Link to ="/profile">Profile</Link>
+                            </NavDropdown>
+                        ):''}
+                    </Nav>
+                </Navbar.Collapse>
                 </Navbar>
+
             </div>
         )
     }
 }
-
-
-
-
 
 export default NavBar
