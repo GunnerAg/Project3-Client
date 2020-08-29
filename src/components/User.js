@@ -11,6 +11,7 @@ export default class User extends Component {
             return <Redirect to='/signin'/>
         }
         
+        
         let unfollowBtn = <Button onClick={()=>onUnFollow(_id)}>UNFOLLOW</Button>
         let followBtn = <Button onClick={()=>onFollow(_id)}>FOLLOW</Button>
         let checkFrom = from === 'FollowingList'
@@ -22,7 +23,7 @@ export default class User extends Component {
                 <p>{description}</p>
                 <p>{image}</p>
                 <p>{howToKnows}</p>
-                { checkFrom ? unfollowBtn : followBtn}
+                { checkFrom ? unfollowBtn : followBtn }
             </div>
         )
     }

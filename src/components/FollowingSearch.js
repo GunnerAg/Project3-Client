@@ -9,28 +9,21 @@ export default class FollowingSearch extends Component {
     state={
         loggedInUser:null,
         allUsers:[],
-        filteredAllUsers:[],
+        unfollowedUsers:[],
     }
 
     getAllUsers=()=>{
         axios.get(`${API_URL}/allusers`,{withCredentials:true})
         .then((res)=>{
-            console.log('get all users------>', res.data)
-            // let notFollowedUsers = res.data.filter((user) =>{
-            //     return this.props.loggedInUser.follow.includes(!user._id)
-                // let bool = false;
-                // return this.props.loggedInUser.follow.forEach((followedUser)=>{
-                //     if(followedUser !== user._id){
-                //         bool=true 
-                //     }
-                //     return bool                    
-                // })               
-            // }) 
+            let filterAllUsers = res.data.filter((user)=>{
+                return this.props.loggedInUser.follow.includes(user._id) === false
+            })
+            
             this.setState({
                 loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
-                allUsers: res.data
-            })
-            console.log('after the filter!',this.state.allUsers)    
+                allUsers: res.data,
+                unfollowedUsers: filterAllUsers
+            }) 
         })
     }
 
@@ -55,12 +48,33 @@ export default class FollowingSearch extends Component {
     }
 
     render() {
-        const {onSearch, searchTerm} = this.props
+        const{ unfollowedUsers, allUsers, loggedInUser } = this.state
+        const{ onSearch, searchTerm, onFollow, SearchPage } = this.props
+
+        if (!this.state.loggedInUser){
+            return <div>Loading User . . .  </div>
+        }
+
+        let searchFilterAllUsers = unfollowedUsers
+
+        if(SearchPage==='followingSearch' && searchTerm!==''){
+            searchFilterAllUsers=searchFilterAllUsers.filter((unfollowed)=>{
+                let bool = false;
+                unfollowed.howToKnows.forEach((howToKnow)=>{
+                    if(howToKnow.toLowerCase().includes(searchTerm.toLowerCase()))
+                    {
+                        bool= true
+                    }
+                })
+                return bool
+            })
+        }
+
         return (
             <div>
                 <SearchBar onSearch={onSearch} searchTerm={searchTerm} from={'followingSearch'} />
-                    <div>{this.state.allUsers.map((user)=>{
-                            return <User loggedInUser={this.state.loggedInUser} from={'followingSearch'} user={user} onFollow={this.props.onFollow} />
+                    <div>{unfollowedUsers.map((user)=>{
+                            return <User loggedInUser={loggedInUser} from={'followingSearch'} user={user} onFollow={onFollow} />
                         })}
                     </div>
             </div>

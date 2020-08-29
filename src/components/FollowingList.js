@@ -16,7 +16,6 @@ export default class FollowingList extends Component {
     getFollowing=()=>{
         axios.get(`${API_URL}/allusers`,{withCredentials:true})
         .then((res)=>{
-            console.log('THE ONE YOU WANT',this.props.loggedInUser)
             let followedUsers =res.data.filter((user)=>{
               return this.props.loggedInUser.follow.includes(user._id )
                 })
@@ -75,7 +74,7 @@ export default class FollowingList extends Component {
             <div>   
                 <SearchBar onSearch={this.props.onSearch} from={'FollowingList'} />
             <div>{filterSearchFollowing.map((user)=>{
-                return <User loggedInUser={this.state.loggedInUser} from={'FollowingList'} user={user} onUnFollow={this.props.onUnFollow}/>
+                return <User loggedInUser={this.state.loggedInUser} followingUsersIds={this.props.followingUsersIds} from={'FollowingList'} user={user} onUnFollow={this.props.onUnFollow}/>
             })}
             </div>
         </div>

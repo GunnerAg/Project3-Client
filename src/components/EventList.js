@@ -80,7 +80,7 @@ export default class EventInfo extends Component {
             })
             return bool
           })
-        }
+        }   
 
         return (
         <div>

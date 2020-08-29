@@ -7,12 +7,16 @@ import EventList from './components/EventList';
 import AddEvent from './components/AddEvent';
 import MyEvents from './components/MyEvents';
 import FollowingSearch from './components/FollowingSearch';
+import FollowingList from './components/FollowingList';
+import VaultList from './components/VaultList';
+import VaultFavs from './components/VaultFavs';
+import AddVaultItem from './components/AddVaultItem';
 import axios from 'axios';
 import {API_URL} from './config';
 import {Switch, Route, withRouter} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
-import FollowingList from './components/FollowingList';
+
 
 
 
@@ -28,6 +32,7 @@ state = {
   SearchTerm: '',
   SearchPage: '',
   followingUsersIds:[],
+  favVaultIds:[],
 }
 
 componentDidMount(){
@@ -38,6 +43,7 @@ componentDidMount(){
           loggedInUser: res.data,
           joinedEventIds: res.data.joinEvents || [],
           followingUsersIds: res.data.follow || [],
+          favVaultIds: res.data.favVault || [],
         })
       })
   }
@@ -165,8 +171,36 @@ componentDidMount(){
     }) 
   }
 
+  handleAddFav=(vaultItemId)=>{
+    axios.patch(`${API_URL}/profile/vault/add`,{vaultItemId},{withCredentials:true})
+    .then(()=>{
+      let clonedFavVaultIds = JSON.parse(JSON.stringify(this.state.favVaultIds))
+      clonedFavVaultIds.push(vaultItemId)
+      this.setState({
+        vaultItemId:clonedFavVaultIds
+      })
+    })
+  }
+
+  handleAddVaultItem=(e,vaultItemDetails)=>{
+    axios.post(`${API_URL}/addVaultItem`,{vaultItemDetails},{withCredentials:true})
+    .then(()=>{
+      this.props.history.push('/profile')
+    })
+  } 
+
+  // handleDeleteVaultItem=(vaultItemId)=>{
+  //   axios.delete(`${API_URL}/event/${vaultItemId}/delete`,{withCredentials:true})
+  //   .then(()=>{
+  //     let clonefavVaultIds= this.state.favVaultIds.filter((id) => id !== vaultItemId)  
+  //     this.setState({
+  //       favVaultIds : clonefavVaultIds
+  //     })
+  //   })
+  // }
+
   render() {
-    const {loggedInUser,joinedEventIds,followingUsersIds,SearchTerm,SearchPage} = this.state
+    const {loggedInUser,joinedEventIds,followingUsersIds,SearchTerm,SearchPage,favVaultIds} = this.state
     return (
     <div>
       <NavBar loggedInUser={loggedInUser} onLogOut={this.handleLogOut}/>
@@ -200,8 +234,22 @@ componentDidMount(){
           }}/>
 
           <Route path="/allusers"  render ={(routeProps)=>{
-            return <FollowingSearch onFollow={this.handleFollow} SearchPage={SearchPage} SearchTerm={this.state.SearchTerm} onSearch={this.handleSearch} loggedInUser={this.state.loggedInUser} {...routeProps} />
+            return <FollowingSearch onFollow={this.handleFollow} SearchPage={SearchPage} SearchTerm={SearchTerm} onSearch={this.handleSearch} loggedInUser={loggedInUser} {...routeProps} />
           }}/>
+
+          <Route path="/thevault"  render ={(routeProps)=>{
+            return <VaultList onAdd={this.handleAddFav} favVaultIds={favVaultIds} SearchPage={SearchPage} SearchTerm={SearchTerm} onSearch={this.handleSearch} loggedInUser={loggedInUser} 
+             {...routeProps} />
+          }}/>
+
+          <Route  path="/addVaultItem"  render ={(routeProps)=>{
+             return <AddVaultItem loggedInUser={loggedInUser} onAddVaultItem={this.handleAddVaultItem} {...routeProps} />
+          }}/>
+
+          <Route  path="/vaultfavs"  render ={(routeProps)=>{
+             return <VaultFavs loggedInUser={loggedInUser} onDeleteVaultFav={this.handleDeleteVaultItem} {...routeProps} />
+          }}/>
+
 
         </Switch>
     </div>

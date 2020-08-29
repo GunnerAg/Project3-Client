@@ -26,6 +26,8 @@ export default class Profile extends Component {
 
                 <div>
                    <h1>VAULT</h1>
+                   <Link to='/thevault'><Button>The Vault</Button></Link>
+                   <Link to='/vaultfavs'><Button>Vault Favs</Button></Link>
                 </div>
         
             </div>

@@ -2,41 +2,39 @@ import React, { Component } from 'react';
 
 
 
-export default class AddEvent extends Component {
+export default class AddVaultItem extends Component {
 
     state = {
-        eventDetails: {},
+        vaultItemDetails: {},
      }
       
 
     onChange=(e)=>{
        let value = e.currentTarget.value;
        let property = e.currentTarget.name;
-       let clonedEvent = JSON.parse(JSON.stringify(this.state.eventDetails))
-       clonedEvent[property]=value
+       let clonedItem = JSON.parse(JSON.stringify(this.state.vaultItemDetails))
+       clonedItem[property]=value
        this.setState({
-        eventDetails:clonedEvent
+        vaultItemDetails:clonedItem
        })
     }
 
     render() {
-        const{ title,description,date,imageUrl,keywords } = this.state.eventDetails
+        const{ title,description,fileUrl,keywords } = this.state.vaultItemDetails
         return (
             <div>
                   <form onSubmit={(e)=>{
                       e.preventDefault()
-                      this.props.onAddEvent(e,this.state.eventDetails)}}>
+                      this.props.onAddVaultItem(e,this.state.vaultItemDetails)}}>
                     <label>Title</label>
                     <input  onChange={this.onChange} value={title} type='text' name='title'></input>
                     <label>Description</label>
                     <input onChange={this.onChange} value={description} type='text' name='description'></input>
-                    <label >Date</label>
-                    <input onChange={this.onChange} value={date} type='date' name='date'></input>
-                    <label>Image</label>
-                    <input onChange={this.onChange} value={imageUrl} type='text' name='imageUrl'></input>
+                    <label >File</label>
+                    <input onChange={this.onChange} value={fileUrl} type='text' name='fileUrl'></input>
                     <label>Keywords</label>
                     <input onChange={this.onChange} value={keywords} type='text' name='keywords'></input>
-                    <input type='submit' value={'Edit'} />
+                    <input type='submit' value={'ADD'} />
                 </form>
             </div>
         )

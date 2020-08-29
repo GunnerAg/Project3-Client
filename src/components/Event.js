@@ -15,7 +15,7 @@ export default class Event extends Component {
         let checkMyEvents = created_by === loggedInUser._id;
         let chekJoinState = joinedEventIds.length && joinedEventIds.includes(_id)
         let deleteBtn = <Button onClick={() => onDelete(_id)}>DELETE</Button>;
-        let unJoinBtn = <Button onClick={_ => onUnJoin(_id) }  >UNJOIN</Button>;
+        let unJoinBtn = <Button onClick={_ => onUnJoin(_id) }>UNJOIN</Button>;
         let joinBtn = <Button onClick={_ => onJoin(_id)}>JOIN</Button>;
         let checkFrom = from === 'myEvents' ;
         return (
