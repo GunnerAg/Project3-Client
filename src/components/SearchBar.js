@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import {API_URL} from '../config';
 
 
 export default class SearchBar extends Component {
@@ -13,8 +11,7 @@ export default class SearchBar extends Component {
        this.setState({
         searchTerm: e.target.value
        }, () => {
-        this.props.onSearch(this.state.searchTerm, this.props.from)
-        
+        this.props.onSearch(this.state.searchTerm, this.props.from) 
        })
     }
 

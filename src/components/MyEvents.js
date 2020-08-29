@@ -66,19 +66,12 @@ export default class EventList extends Component {
     render() {
    
       let filterSearchEvents = this.state.filteredEvents
-      console.log(this.props)
-      console.log(this.props.eventSearchPage === 'myEvents' && this.props.eventSearchTerm !== '')
-      if (this.props.eventSearchPage === 'myEvents' && this.props.eventSearchTerm !== ''){
+      if (this.props.SearchPage === 'myEvents' && this.props.SearchTerm !== ''){
         filterSearchEvents  = filterSearchEvents.filter((event) => {
           let bool = false;
-        
-          console.log( event.keywords)
           event.keywords.forEach((keyword) => {
-            console.log(keyword)
-            console.log(keyword.includes(this.props.eventSearchTerm))
-            if (keyword.toLowerCase().includes(this.props.eventSearchTerm.toLowerCase())) {
+            if (keyword.toLowerCase().includes(this.props.SearchTerm.toLowerCase())) {
               bool = true
-
             }
           })
        

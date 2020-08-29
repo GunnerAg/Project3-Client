@@ -6,29 +6,29 @@ import EditProfile from './components/EditProfile';
 import EventList from './components/EventList';
 import AddEvent from './components/AddEvent';
 import MyEvents from './components/MyEvents';
+import FollowingSearch from './components/FollowingSearch';
 import axios from 'axios';
 import {API_URL} from './config';
 import {Switch, Route, withRouter} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
+import FollowingList from './components/FollowingList';
 
 
 
 
 class App extends React.Component{
-
-  
-  
+ 
 state = {
   signUpForm:false,
   signInForm:false,
   loggedInUser: null,
   joinedEventIds: [],
-  filteredEvents:[],
-  eventSearchTerm: '',
-  eventSearchPage: '',
+  // filteredEvents:[],
+  SearchTerm: '',
+  SearchPage: '',
+  followingUsersIds:[],
 }
-  
 
 componentDidMount(){
   if(!this.state.loggedInUser){
@@ -36,14 +36,13 @@ componentDidMount(){
       .then ((res)=>{
         this.setState({
           loggedInUser: res.data,
-          joinedEventIds: res.data.joinEvents || []
+          joinedEventIds: res.data.joinEvents || [],
+          followingUsersIds: res.data.follow || [],
         })
       })
   }
 }
 
-  
-     // Show or hide the forms to sign up and sign in
   showSignUp=()=>{
     this.setState({signUpForm:!this.state.signUpForm})
   };
@@ -51,8 +50,6 @@ componentDidMount(){
   showSignIn=()=>{
     this.setState({signInForm:!this.state.signInForm})
   };
-
-
 
   handleSignIn = (e) => {
     e.preventDefault();
@@ -111,8 +108,8 @@ componentDidMount(){
 
   handleSearch = (term, page) => {
        this.setState({
-         eventSearchTerm: term,
-         eventSearchPage: page,
+         SearchTerm: term,
+         SearchPage: page,
        })
   }
 
@@ -137,46 +134,73 @@ componentDidMount(){
     })
   }
 
-
-
   handleDeleteEvent=(eventId)=>{
     axios.delete(`${API_URL}/event/${eventId}/delete`,{withCredentials:true})
     .then(()=>{
       let cloneJoinedEventIds = this.state.joinedEventIds.filter((id) => id !== eventId)  
       this.setState({
-        joinedEventIds: cloneJoinedEventIds
+        joinedEventIds : cloneJoinedEventIds
       })
     })
   }
 
+  handleUnFollow=(userId)=>{
+    axios.patch(`${API_URL}/profile/follow/unfollow`,{userId},{withCredentials:true})
+    .then(()=>{
+      let clonedFollowingUsersIds = this.state.followingUsersIds.filter((id)=> id !==userId)
+      this.setState({
+        followingUsersIds : clonedFollowingUsersIds
+      })
+    })
+  }
+
+  handleFollow=(userId)=>{
+    axios.patch(`${API_URL}/profile/follow/follow`,{userId},{withCredentials:true})
+    .then(()=>{
+        let clonedfollowingUsersIds = JSON.parse(JSON.stringify(this.state.followingUsersIds))
+        clonedfollowingUsersIds.push(userId)
+        this.setState({
+          followingUsersIds: clonedfollowingUsersIds
+        })
+    }) 
+  }
+
   render() {
-    const {eventSearchPage} = this.state
+    const {loggedInUser,joinedEventIds,followingUsersIds,SearchTerm,SearchPage} = this.state
     return (
     <div>
-      <NavBar loggedInUser={this.state.loggedInUser} onLogOut={this.handleLogOut}/>
+      <NavBar loggedInUser={loggedInUser} onLogOut={this.handleLogOut}/>
         <Switch >
           <Route exact path="/" render={(routeProps) => {
             return <Home {...routeProps} onSignUp={this.handleSignUp} onSignIn={this.handleSignIn} />
           }} />
 
           <Route exact path="/profile" render ={(routeProps)=>{
-             return <Profile loggedInUser={this.state.loggedInUser} {...routeProps} />
+             return <Profile loggedInUser={loggedInUser} {...routeProps} />
           }}/>
 
           <Route  path="/profile/edit" render ={(routeProps)=>{
-             return <EditProfile loggedInUser={this.state.loggedInUser} onEdit={this.handleEdit} {...routeProps}/>
+             return <EditProfile loggedInUser={loggedInUser} onEdit={this.handleEdit} {...routeProps}/>
           }}/>
 
           <Route exact path="/eventlist"  render ={(routeProps)=>{
-            return <EventList eventSearchPage={eventSearchPage} eventSearchTerm={this.state.eventSearchTerm} joinedEventIds={this.state.joinedEventIds} onJoin={this.handleJoin} onUnJoin={this.handleUnJoin} onSearch={this.handleSearch} loggedInUser={this.state.loggedInUser} {...routeProps} />
+            return <EventList SearchPage={SearchPage} SearchTerm={SearchTerm} joinedEventIds={joinedEventIds} onJoin={this.handleJoin} onUnJoin={this.handleUnJoin} onSearch={this.handleSearch} loggedInUser={loggedInUser} {...routeProps} />
           }}/>
 
           <Route  path="/myevents"  render ={(routeProps)=>{
-             return <MyEvents  eventSearchPage={eventSearchPage} eventSearchTerm={this.state.eventSearchTerm} joinedEventIds={this.state.joinedEventIds} onSearch={this.handleSearch} loggedInUser={this.state.loggedInUser} onUnJoin={this.handleUnJoin} onDelete={this.handleDeleteEvent}{...routeProps} />
+             return <MyEvents  SearchPage={SearchPage} SearchTerm={SearchTerm} joinedEventIds={joinedEventIds} onSearch={this.handleSearch} loggedInUser={this.state.loggedInUser} onUnJoin={this.handleUnJoin} onDelete={this.handleDeleteEvent}{...routeProps} />
           }}/>
 
           <Route  path="/addevent"  render ={(routeProps)=>{
-             return <AddEvent loggedInUser={this.state.loggedInUser} onAddEvent={this.handleAddEvent} {...routeProps} />
+             return <AddEvent loggedInUser={loggedInUser} onAddEvent={this.handleAddEvent} {...routeProps} />
+          }}/>
+          
+          <Route path="/following"  render ={(routeProps)=>{
+            return <FollowingList SearchPage={SearchPage} SearchTerm={this.state.SearchTerm} followingUsersIds={followingUsersIds} onUnFollow={this.handleUnFollow} onSearch={this.handleSearch} loggedInUser={this.state.loggedInUser} {...routeProps} />
+          }}/>
+
+          <Route path="/allusers"  render ={(routeProps)=>{
+            return <FollowingSearch onFollow={this.handleFollow} SearchPage={SearchPage} SearchTerm={this.state.SearchTerm} onSearch={this.handleSearch} loggedInUser={this.state.loggedInUser} {...routeProps} />
           }}/>
 
         </Switch>

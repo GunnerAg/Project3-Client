@@ -24,11 +24,7 @@ export default class EventInfo extends Component {
         notUserEvents = notUserEvents.map((event) => {
           let count = 0;
           event.keywords.forEach((keyword) => {
-            console.log(this.props.loggedInUser.wantToLearns)
             this.props.loggedInUser.wantToLearns.forEach((wantToLearn) => {
-              console.log(wantToLearn)
-              console.log(keyword)
-              console.log(wantToLearn.toLowerCase() === keyword.toLowerCase())
               if (wantToLearn.toLowerCase() === keyword.toLowerCase()) {
                 count++
               }
@@ -67,23 +63,18 @@ export default class EventInfo extends Component {
 
     render() {
         const {filteredEvents}=this.state 
-        console.log(this.state)
 
         if (!this.state.loggedInUser) {
-          return <div>Loading User . . . . . </div>
+          return <div>Loading User . . .  </div>
         } 
 
-        
-        let filterSearchEvents = this.state.filteredEvents
+        let filterSearchEvents = filteredEvents
    
-        if (this.props.eventSearchPage === 'allEvents' && this.props.eventSearchTerm !== ''){
+        if (this.props.SearchPage === 'allEvents' && this.props.SearchTerm !== ''){
           filterSearchEvents  = filterSearchEvents.filter((event) => {
             let bool = false;
-            console.log( event.keywords)
             event.keywords.forEach((keyword) => {
-              console.log(keyword)
-              console.log(keyword.includes(this.props.eventSearchTerm))
-              if (keyword.toLowerCase().includes(this.props.eventSearchTerm.toLowerCase())) {
+              if (keyword.toLowerCase().includes(this.props.SearchTerm.toLowerCase())) {
                 bool = true
               }
             })
@@ -93,7 +84,7 @@ export default class EventInfo extends Component {
 
         return (
         <div>
-            <SearchBar onSearch={this.props.onSearch}  from={'allEvents'}  />
+            <SearchBar onSearch={this.props.onSearch} from={'allEvents'} searchTerm={this.props.searchTerm} />
             <div>{filterSearchEvents.map((event)=>{
                    return <Event loggedInUser={this.state.loggedInUser} from={'allEvents'} event={event} joinedEventIds={this.props.joinedEventIds}  onJoin={this.props.onJoin}  onUnJoin={this.props.onUnJoin}/>
                })}

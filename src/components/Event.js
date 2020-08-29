@@ -5,29 +5,28 @@ import {Redirect} from 'react-router-dom'
 
 export default class Event extends Component {
 
-    
-
     render() {
-
-        if (!this.props.loggedInUser) {
+        const{title, description, date, image, keywords, created_by, percentage, _id } = this.props.event
+        const{loggedInUser, joinedEventIds, from, onDelete, onJoin, onUnJoin}=this.props
+        if (!loggedInUser) {
             return <Redirect to="/signin" />
         }
        
-        let checkMyEvents = this.props.event.created_by === this.props.loggedInUser._id;
-        let chekJoinState = this.props.joinedEventIds.length && this.props.joinedEventIds.includes(this.props.event._id)
-        let deleteBtn = <Button onClick={() => this.props.onDelete(this.props.event._id)}>DELETE</Button>;
-        let unJoinBtn = <Button onClick={_ =>{this.props.onUnJoin(this.props.event._id) } } >UNJOIN</Button>;
-        let joinBtn = <Button onClick={_ =>{this.props.onJoin(this.props.event._id)}}>JOIN</Button>;
-        let checkFrom = this.props.from === 'myEvents' ;
+        let checkMyEvents = created_by === loggedInUser._id;
+        let chekJoinState = joinedEventIds.length && joinedEventIds.includes(_id)
+        let deleteBtn = <Button onClick={() => onDelete(_id)}>DELETE</Button>;
+        let unJoinBtn = <Button onClick={_ => onUnJoin(_id) }  >UNJOIN</Button>;
+        let joinBtn = <Button onClick={_ => onJoin(_id)}>JOIN</Button>;
+        let checkFrom = from === 'myEvents' ;
         return (
             <div>
-              <p>{this.props.event.title}</p>
-              <p>{this.props.event.description}</p>
-              <p>{this.props.event.date}</p>
-              <p>{this.props.event.image}</p>
-              <p>{this.props.event.keywords}</p>
-              <p>{this.props.event.created_by}</p>
-              {checkFrom? null: (<p>Profile match {this.props.event.percentage}</p>)}
+              <p>{title}</p>
+              <p>{description}</p>
+              <p>{date}</p>
+              <p>{image}</p>
+              <p>{keywords}</p>
+              <p>{created_by}</p>
+              {checkFrom? null: (<p>Profile match {percentage}</p>)}
               {checkFrom ? (checkMyEvents ? deleteBtn : unJoinBtn) : ( chekJoinState ?  unJoinBtn: joinBtn)}
             </div>
         )
