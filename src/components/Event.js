@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button,Card } from 'react-bootstrap';
 import {Redirect} from 'react-router-dom'
 
 
@@ -19,15 +19,33 @@ export default class Event extends Component {
         let joinBtn = <Button onClick={_ => onJoin(_id)}>JOIN</Button>;
         let checkFrom = from === 'myEvents' ;
         return (
-            <div>
-              <p>{title}</p>
+            <div >
+
+                <Card style={{ width: '18rem' }}>
+                <Card.Img variant="top" src={image} />
+                <Card.Body>
+                    <Card.Title>{title} by {created_by}</Card.Title>
+                    <Card.Text>
+                    {description}
+                    </Card.Text>
+                    <Card.Text>
+                    {date}
+                    </Card.Text>
+                    <Card.Text>
+                    {keywords}
+                    </Card.Text>
+                    {checkFrom? null: (<p>Profile match {percentage}</p>)}
+                    {checkFrom ? (checkMyEvents ? deleteBtn : unJoinBtn) : ( chekJoinState ?  unJoinBtn: joinBtn)}
+                </Card.Body>
+                </Card>
+              {/* <p>{title}</p>
               <p>{description}</p>
               <p>{date}</p>
               <p>{image}</p>
               <p>{keywords}</p>
-              <p>{created_by}</p>
-              {checkFrom? null: (<p>Profile match {percentage}</p>)}
-              {checkFrom ? (checkMyEvents ? deleteBtn : unJoinBtn) : ( chekJoinState ?  unJoinBtn: joinBtn)}
+              <p>{created_by}</p> */}
+              {/* {checkFrom? null: (<p>Profile match {percentage}</p>)}
+              {checkFrom ? (checkMyEvents ? deleteBtn : unJoinBtn) : ( chekJoinState ?  unJoinBtn: joinBtn)} */}
             </div>
         )
     }

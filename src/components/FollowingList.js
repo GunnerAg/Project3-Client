@@ -23,7 +23,6 @@ export default class FollowingList extends Component {
                 loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
                 following: followedUsers,
                 filteredFollowing: followedUsers,
-                followingUsersIds: this.props.loggedInUser.follow || []
             })
         })
     }

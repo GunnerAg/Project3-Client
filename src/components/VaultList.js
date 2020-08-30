@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import {Button} from 'react-bootstrap';
 import VaultItem from './VaultItem';
 import axios from 'axios';
 import {API_URL} from '../config';
@@ -18,9 +16,13 @@ export default class VaultList extends Component {
     getAllVaultItems=()=>{
         axios.get(`${API_URL}/allvault`,{withCredentials:true})
         .then((res)=>{
+            let notFavItems = res.data.filter((item) => {
+                return  this.props.loggedInUser.favVault.includes(item._id) === false
+              })
             this.setState({
+                loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
                 vaultItems: res.data,
-                filteredVaultItems: res.data
+                filteredVaultItems: notFavItems
             })
         })
     }
@@ -69,8 +71,7 @@ export default class VaultList extends Component {
 
         return (
             <div>
-                <SearchBar onSearch={this.props.onSearch} from={'VaultList'} />
-                <Link to='/addVaultItem'><Button>Add to the vault</Button></Link>
+                <SearchBar onSearch={this.props.onSearch} searchTerm={this.props.searchTerm} from={'VaultList'} />
                 <div>{filterSearchVaultItems.map((item)=>{
                     return <VaultItem loggedInUser={loggedInUser} favVaultIds={this.props.favVaultIds} from={'VaultList'}
                         item={item} onAdd={this.props.onAdd}

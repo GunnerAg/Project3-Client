@@ -85,7 +85,7 @@ export default class EventInfo extends Component {
         return (
         <div>
             <SearchBar onSearch={this.props.onSearch} from={'allEvents'} searchTerm={this.props.searchTerm} />
-            <div>{filterSearchEvents.map((event)=>{
+            <div style={{display:'flex', justifyContent:'space-between' }}>{filterSearchEvents.map((event)=>{
                    return <Event loggedInUser={this.state.loggedInUser} from={'allEvents'} event={event} joinedEventIds={this.props.joinedEventIds}  onJoin={this.props.onJoin}  onUnJoin={this.props.onUnJoin}/>
                })}
             </div>

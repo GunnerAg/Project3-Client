@@ -45,12 +45,15 @@ export default class EditProfile extends Component {
                     <input onChange={this.onChange} value ={email} type='text' name='email'></input>
                     <label >Description</label>
                     <input onChange={this.onChange} value ={description} type='text' name='description'></input>
-                    <label>Image</label>
-                    <input onChange={this.onChange} value ={image} type='text' name='image'></input>
+                    {/* <label>Image</label>
+                    <input onChange={this.onChange} value ={image} type='text' name='image'></input> */}
                     <label>Knowledge</label>
                     <input onChange={this.onChange} value ={howToKnows} type='text' name='howToKnows'></input>
                     <label>To Learn</label>
                     <input onChange={this.onChange} value ={wantToLearns} type='text' name='wantToLearns'></input>
+
+                    <label>Image</label>
+                    <input type='file' name='image' onChange={this.onChange} value={image}></input>
                     <Button type='submit'>Edit</Button>
                 </form>
             </div>

@@ -16,7 +16,7 @@ export default class FollowingSearch extends Component {
         axios.get(`${API_URL}/allusers`,{withCredentials:true})
         .then((res)=>{
             let filterAllUsers = res.data.filter((user)=>{
-                return this.props.loggedInUser.follow.includes(user._id) === false
+                return this.props.loggedInUser.follow.includes(user._id) === false && user._id !== this.props.loggedInUser._id
             })
             
             this.setState({
@@ -48,20 +48,22 @@ export default class FollowingSearch extends Component {
     }
 
     render() {
-        const{ unfollowedUsers, allUsers, loggedInUser } = this.state
-        const{ onSearch, searchTerm, onFollow, SearchPage } = this.props
+        const{ unfollowedUsers, loggedInUser } = this.state
+        const{ onSearch, onFollow } = this.props
 
         if (!this.state.loggedInUser){
             return <div>Loading User . . .  </div>
         }
 
-        let searchFilterAllUsers = unfollowedUsers
+        let unfollowedSearchUsers = unfollowedUsers
+      
 
-        if(SearchPage==='followingSearch' && searchTerm!==''){
-            searchFilterAllUsers=searchFilterAllUsers.filter((unfollowed)=>{
+        if(this.props.SearchPage ==='FollowingSearch' && this.props.searchTerm !==''){
+            unfollowedSearchUsers=unfollowedSearchUsers.filter((unfollowed)=>{
                 let bool = false;
                 unfollowed.howToKnows.forEach((howToKnow)=>{
-                    if(howToKnow.toLowerCase().includes(searchTerm.toLowerCase()))
+                    console.log('howtoknow value',howToKnow)
+                    if(howToKnow.toLowerCase().includes(this.props.searchTerm.toLowerCase()))
                     {
                         bool= true
                     }
@@ -72,9 +74,9 @@ export default class FollowingSearch extends Component {
 
         return (
             <div>
-                <SearchBar onSearch={onSearch} searchTerm={searchTerm} from={'followingSearch'} />
+                <SearchBar onSearch={onSearch} from={'FollowingSearch'} />
                     <div>{unfollowedUsers.map((user)=>{
-                            return <User loggedInUser={loggedInUser} from={'followingSearch'} user={user} onFollow={onFollow} />
+                            return <User loggedInUser={loggedInUser} from={'FollowingSearch'} user={user} onFollow={onFollow} />
                         })}
                     </div>
             </div>

@@ -84,9 +84,11 @@ export default class EventList extends Component {
                 <Link to='/addEvent'><Button>Add Event</Button></Link>
                 <SearchBar onSearch={this.props.onSearch} searchTerm={this.props.searchTerm} from={'myEvents'} />
                 <h1> EVENTS </h1>
+                <div style={{display:'flex', justifyContent:'space-arround'}}>
                 {filterSearchEvents.map((event)=>{
                     return   <Event loggedInUser={this.props.loggedInUser}  joinedEventIds={this.props.joinedEventIds} from={'myEvents'} event={event} btnClass={'DELETE/UNJOIN'} onDelete={this.props.onDelete}  onUnjoin={this.handleUnjoin}/>
                 })}
+                </div>
                 {/* <h1> EVENTS </h1>
                 {this.state.userEvents.map((event)=>{
                     return   <Event event={event} btnClass={'DELETE/UNJOIN'} onClick={this.handleChange}/>
