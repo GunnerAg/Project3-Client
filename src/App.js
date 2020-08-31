@@ -4,6 +4,7 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 import EditProfile from './components/EditProfile';
 import EventList from './components/EventList';
+import CarrouselEvent  from './components/CarrouselEvent';
 import AddEvent from './components/AddEvent';
 import MyEvents from './components/MyEvents';
 import FollowingSearch from './components/FollowingSearch';
@@ -101,13 +102,12 @@ componentDidMount(){
   }
 
   handleEdit = (e,userInfo) => {
-    e.preventDefault()
-    const{image}= e.currentTarget
     let uploadData = new FormData()
-    uploadData.append('imageUrl', image.files[0])
+    uploadData.append('imageUrl', userInfo.image)
     axios.post(`${API_URL}/upload`, uploadData)
       .then((res)=>{
-        axios.patch(`${API_URL}/profile/edit`,{userInfo, image:res.data.image},{withCredentials: true})
+        userInfo.image = res.data.image
+        axios.patch(`${API_URL}/profile/edit`,{userInfo},{withCredentials: true})
           .then(() => {
             this.props.history.push('/profile')
         })
@@ -115,12 +115,18 @@ componentDidMount(){
   }
   
   handleAddEvent=(e,eventDetails)=>{
-    console.log('inside handle events',e)
-    axios.post(`${API_URL}/addEvent`,{eventDetails},{withCredentials:true})
-    .then(()=>{
-      this.props.history.push('/myEvents')
-    })
-  } 
+    console.log(eventDetails)
+    let uploadData = new FormData()
+    uploadData.append('imageUrl', eventDetails.image)
+    axios.post(`${API_URL}/upload`, uploadData)
+      .then((res)=>{
+        eventDetails.image = res.data.image
+            axios.post(`${API_URL}/addEvent`,{eventDetails},{withCredentials:true})
+              .then(()=>{
+                this.props.history.push('/myEvents')
+              })
+       })    
+}
 
   handleSearch = (term, page) => {
        this.setState({
@@ -177,7 +183,8 @@ componentDidMount(){
         clonedfollowingUsersIds.push(userId)
         this.setState({
           followingUsersIds: clonedfollowingUsersIds
-        })
+        }, () => {
+          this.props.history.push('/allusers')})
     }) 
   }
 
@@ -200,7 +207,6 @@ componentDidMount(){
         favVaultIds: clonedFavVaultIds
       })
     })
-
   }
 
   handleAddVaultItem=(e,vaultItemDetails)=>{
@@ -216,17 +222,6 @@ componentDidMount(){
       this.props.history.push('/profile')
     })
   }
-  
-//   handleOnDetails=(detailsItemId)=>{
-//     let detailsItem = this.state.favVaultIds.filter((id)=>{
-//         return id === detailsItemId
-//     })
-//     this.setState({
-//         detailsItem: detailsItem
-//     })
-// }
-
- 
 
   render() {
     const {loggedInUser,joinedEventIds,followingUsersIds,SearchTerm,SearchPage,favVaultIds} = this.state
@@ -239,7 +234,7 @@ componentDidMount(){
           }} />
 
           <Route exact path="/profile" render ={(routeProps)=>{
-             return <Profile loggedInUser={loggedInUser} {...routeProps} />
+             return <Profile  SearchPage={SearchPage} SearchTerm={SearchTerm} joinedEventIds={joinedEventIds} onJoin={this.handleJoin} onUnJoin={this.handleUnJoin} onSearch={this.handleSearch} loggedInUser={loggedInUser} {...routeProps} />
           }}/>
 
           <Route  path="/profile/edit" render ={(routeProps)=>{
@@ -247,7 +242,11 @@ componentDidMount(){
           }}/>
 
           <Route exact path="/eventlist"  render ={(routeProps)=>{
-            return <EventList SearchPage={SearchPage} SearchTerm={SearchTerm} joinedEventIds={joinedEventIds} onJoin={this.handleJoin} onUnJoin={this.handleUnJoin} onSearch={this.handleSearch} loggedInUser={loggedInUser} {...routeProps} />
+            return <EventList SearchPage={SearchPage} SearchTerm={SearchTerm} joinedEventIds={this.state.joinedEventIds} onJoin={this.handleJoin} onUnJoin={this.handleUnJoin} onSearch={this.handleSearch} loggedInUser={loggedInUser} {...routeProps} />
+          }}/>
+
+          <Route exact path="/eventlist"  render ={(routeProps)=>{
+            return <CarrouselEvent loggedInUser={loggedInUser} {...routeProps} />
           }}/>
 
           <Route  path="/myevents"  render ={(routeProps)=>{
@@ -283,10 +282,9 @@ componentDidMount(){
              return <MyVaultItems loggedInUser={loggedInUser} SearchPage={SearchPage} onSearch={this.handleSearch} SearchTerm={SearchTerm} favVaultIds={favVaultIds} onErase={this.handleDeleteVaultItem} {...routeProps} />
           }}/>
 
-          {/* <Route  path="/vaultitemdetails"  render ={(routeProps)=>{
-             return <VaultItemDetails detailsItem={this.state.detailsItem}  loggedInUser={loggedInUser} favVaultIds={favVaultIds} {...routeProps} />
-          }}/> */}
-
+          <Route  path="/vaultitemdetails/:id" render ={(routeProps)=>{
+             return <VaultItemDetails  loggedInUser={loggedInUser} favVaultIds={favVaultIds} {...routeProps} />
+          }}/>
 
         </Switch>
     </div>

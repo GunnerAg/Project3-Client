@@ -18,7 +18,7 @@ export default class FollowingSearch extends Component {
             let filterAllUsers = res.data.filter((user)=>{
                 return this.props.loggedInUser.follow.includes(user._id) === false && user._id !== this.props.loggedInUser._id
             })
-            
+            console.log(filterAllUsers)
             this.setState({
                 loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
                 allUsers: res.data,
@@ -47,6 +47,19 @@ export default class FollowingSearch extends Component {
         }
     }
 
+    // componentDidUpdate(newProps){
+    //     console.log(newProps.followingUsersIds.length)
+    //     console.log(this.props.followingUsersIds.length)
+    //    if( newProps.followingUsersIds.length !== this.props.followingUsersIds.length ){
+    //         if(newProps.loggedInUser){
+    //             this.getAllUsers()
+    //         }
+    //         else {
+    //             this.getUser()
+    //         }
+    //     }
+    // }
+
     render() {
         const{ unfollowedUsers, loggedInUser } = this.state
         const{ onSearch, onFollow } = this.props
@@ -73,8 +86,8 @@ export default class FollowingSearch extends Component {
         }
 
         return (
-            <div>
-                <SearchBar onSearch={onSearch} from={'FollowingSearch'} />
+            <div >
+                <SearchBar onSearch={onSearch} from={'FollowingSearch'} id='SearchBar' />
                     <div>{unfollowedUsers.map((user)=>{
                             return <User loggedInUser={loggedInUser} from={'FollowingSearch'} user={user} onFollow={onFollow} />
                         })}

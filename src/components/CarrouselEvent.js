@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import Event from './Event';
 import axios from 'axios';
 import {API_URL} from '../config';
-import SearchBar from './SearchBar';
+// import CarouselItem from './CarouselItem';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import Carousel from 'react-bootstrap/Carousel'
 
 
-export default class EventList extends Component {
+export default class CarrouselEvent extends Component {
 
 
     state = {
@@ -61,11 +63,6 @@ export default class EventList extends Component {
         }
     }
 
-    componentDidUpdate() {
-      console.log("component updated")
-      this.getEvents()
-    }
-
     render() {
         const {filteredEvents}=this.state 
 
@@ -88,13 +85,29 @@ export default class EventList extends Component {
         }   
 
         return (
-        <div>
-            <SearchBar onSearch={this.props.onSearch} from={'allEvents'} searchTerm={this.props.searchTerm} />
-            <div style={{display:'flex', justifyContent:'space-between' }}>{filterSearchEvents.map((event)=>{
-                   return <Event loggedInUser={this.state.loggedInUser} from={'allEvents'} event={event} joinedEventIds={this.props.joinedEventIds}  onJoin={this.props.onJoin}  onUnJoin={this.props.onUnJoin}/>
-               })}
-            </div>
-        </div>
+                      <Carousel>
+                      {
+                        filterSearchEvents.map((event)=>{
+                          return (
+                            <Carousel.Item>
+                              <img
+                              className
+                              // className="d-block w-20"
+                               src={event.image}
+                             // src={'https://image.shutterstock.com/image-photo/natural-yellow-butterfly-isolated-on-260nw-1270220995.jpg'}
+                              alt={event.title}
+                              />
+                              <Carousel.Caption>
+                              <h3>{event.title} by {event.created_by}</h3>
+                              <p>{event.description}</p>
+                              </Carousel.Caption>
+                          </Carousel.Item>
+                          )
+                        })
+                      }
+               
+                      </Carousel>
+                    
         )
     }
 }

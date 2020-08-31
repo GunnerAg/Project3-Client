@@ -8,5 +8,46 @@
     background-color: #103269;
     background: linear-gradient(to bottom, #1f5a8f 1%,#1f5a8f 100%)
   } */
+  #BtnStyle{
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    color: white;
 
+  }
+
+  @media (max-width: 620px) {
+    .profilePic{
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      width: 150px
+    }
+  }
+  
+  @media (min-width: 620px) and (max-width: 999px) {
+    .profilePic{
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      width: 250px
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .profilePic{
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      width: 400px
+    }
+  }
+  
+  .followPic{
+    width: 200px
+  }
+
+  #SearchBar{
+    width: 200px;
+  }
 

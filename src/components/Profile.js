@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import ProfileDetails from './ProfileDetails'
 import { Button,Carousel } from 'react-bootstrap';
-import EventList from './EventList';
+import CarrouselEvent from './CarrouselEvent';
 
 
 
@@ -29,8 +29,7 @@ export default class Profile extends Component {
                                 <Link to='/eventlist'><Button>Find Events</Button></Link>
                             </div>
                             <div>
-                                {/* ¿How to use this component here?
-                                <EventList/> */}
+                            <CarrouselEvent loggedInUser={this.props.loggedInUser} />
                             </div>
                         </div>
                 </div>

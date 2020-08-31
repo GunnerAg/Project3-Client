@@ -30,9 +30,17 @@ export default class ProfileDetails extends Component {
             const {profileInfo} = this.state
             console.log(profileInfo)
         return (
-            <div style={{display:'flex', justifyContent:'space-evenly', }}>
+            <div>
+            <div>
+            <h2>Welcome {profileInfo.username} to your profile.</h2>
+            </div>
+            <div style={{display:'flex', justifyContent:'space-evenly',flexWrap:'wrap'}}>
+                <div>
+                    <Col xs={6} md={4}>
+                        <Image className="profilePic" src={profileInfo.image} roundedCircle />
+                    </Col>  
+                </div>
                 <div >
-                    <h2>Welcome {profileInfo.username} to your profile.</h2>
                     {
                         profileInfo  && (
                             
@@ -48,14 +56,9 @@ export default class ProfileDetails extends Component {
                     }
                    <Link to='/profile/edit' loggedInUser={this.props.loggedInUser}> <Button>EDIT</Button></Link>
                 </div> 
-                <div>
-                    <Row>
-                        <Col xs={6} md={4}>
-                            <Image src="holder.js/171x180" thumbnail />
-                        </Col>
-                    </Row>
-                </div>
+             
             </div>
+        </div>
         )
     }
 }

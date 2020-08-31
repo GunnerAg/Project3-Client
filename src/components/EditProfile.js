@@ -25,18 +25,33 @@ export default class EditProfile extends Component {
        let value = event.currentTarget.value;
        let property = event.currentTarget.name;
        let clonedProfile = JSON.parse(JSON.stringify(this.state.profileInfo))
-       clonedProfile[property]=value
+       if (property === 'image') {
+        clonedProfile[property] =  event.currentTarget.files[0]
+       }
+       else {
+        clonedProfile[property]=value
+       }
        this.setState({
           profileInfo:clonedProfile
        })
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault()
+        let clonedProfile = JSON.parse(JSON.stringify(this.state.profileInfo))  
+        if (e.currentTarget.image.value) {
+            clonedProfile.image = e.currentTarget.image.files[0]
+        }     
+        console.log(clonedProfile)    
+        this.props.onEdit(e,clonedProfile)
+    }
+
       
     render() {
-        const{ username,secondname,email, description,image,howToKnows,wantToLearns } = this.state.profileInfo
+        const{ username,secondname,email, description, howToKnows,wantToLearns } = this.state.profileInfo
         return (
             <div >
-                <form onSubmit={(e)=>this.props.onEdit(e,this.state.profileInfo)}>
+                <form onSubmit={this.handleSubmit}>
                     <label>Name</label>
                     <input onChange={this.onChange} value={username} type='text' name='username'></input>
                     <label>Secondname</label>
@@ -53,7 +68,7 @@ export default class EditProfile extends Component {
                     <input onChange={this.onChange} value ={wantToLearns} type='text' name='wantToLearns'></input>
 
                     <label>Image</label>
-                    <input type='file' name='image' onChange={this.onChange} value={image}></input>
+                    <input type='file' name='image' ></input>
                     <Button type='submit'>Edit</Button>
                 </form>
             </div>

@@ -24,15 +24,14 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-            <h2>HOME PAGE</h2>
-                <div style={{display:'flex', justifyContent:'space-evenly', marginTop:'20px'}}>
+                <div style={{display:'flex', justifyContent:'space-evenly', flexWrap:'wrap'}}>
                     {this.state.signUpForm 
-                    ?<> <SignUp onSignUp={this.props.onSignUp} /> <ButtonDisplayForm case='Go back' hideOrShow={this.showSignUp}/></>
-                    :<><ButtonDisplayForm case='Sign Up' hideOrShow={this.showSignUp}/></>
+                    ?<div style={{display:'flex', flexDirection:'column'}}><SignUp onSignUp={this.props.onSignUp} /> <ButtonDisplayForm case='Go back' hideOrShow={this.showSignUp} id='BtnStyle'/></div>
+                    :<><ButtonDisplayForm case='Sign Up' hideOrShow={this.showSignUp} id='BtnStyle'/></>
                     }
                     {this.state.signInForm 
-                    ?<> <SignIn onSignIn={this.props.onSignIn} /> <ButtonDisplayForm case='Go back' hideOrShow={this.showSignIn}/></>
-                    :<><ButtonDisplayForm case='Sign In' hideOrShow={this.showSignIn}/></>
+                    ?<div style={{display:'flex', flexDirection:'column'}}><SignIn onSignIn={this.props.onSignIn} /> <ButtonDisplayForm case='Go back' hideOrShow={this.showSignIn} id='BtnStyle'/></div>
+                    :<><ButtonDisplayForm case='Sign In' hideOrShow={this.showSignIn} id='BtnStyle'/></>
                     }
                 </div>
             </div>
