@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {API_URL} from '../config';
 import { ListGroup, Button, Row, Image, Col } from 'react-bootstrap';
+import './ProfileDetails.css'
 
 
 
@@ -28,35 +29,33 @@ export default class ProfileDetails extends Component {
           
         render() {
             const {profileInfo} = this.state
-            console.log(profileInfo)
-        return (
-            <div>
-            <div>
-            <h2>Welcome {profileInfo.username} to your profile.</h2>
+            return (
+            <div className='profile-details-section'>
+            <div className='welcome-message'>
+            <h1>Hi there {profileInfo.username} welcome to your profile</h1>
             </div>
-            <div style={{display:'flex', justifyContent:'space-evenly',flexWrap:'wrap'}}>
-                <div>
+            <div className='profile-details-container'>
+                <div className="profile-pic" >
                     <Col xs={6} md={4}>
-                        <Image className="profilePic" src={profileInfo.image} roundedCircle />
+                        <Image id="profile-pic" src={profileInfo.image} rounded   />
                     </Col>  
                 </div>
                 <div >
                     {
                         profileInfo  && (
                             
-                    <ListGroup variant="flush" >
-                        {profileInfo.username && <ListGroup.Item>{profileInfo.username}</ListGroup.Item>}
-                        {profileInfo.secondname && <ListGroup.Item>{profileInfo.secondname}</ListGroup.Item>}
-                        {profileInfo.email && <ListGroup.Item>{profileInfo.email}</ListGroup.Item>}
-                        {profileInfo.description && <ListGroup.Item>{profileInfo.description}</ListGroup.Item>}
-                        {profileInfo.howToKnows && <ListGroup.Item>{profileInfo.howToKnows}</ListGroup.Item>}
-                        {profileInfo.wantToLearns && <ListGroup.Item>{profileInfo.wantToLearns}</ListGroup.Item>}
+                    <ListGroup className='list-group' variant="flush" >
+                        {profileInfo.username && <ListGroup.Item id='profile-info'>{profileInfo.username}</ListGroup.Item>}
+                        {profileInfo.secondname && <ListGroup.Item id='profile-info'>{profileInfo.secondname}</ListGroup.Item>}
+                        {profileInfo.email && <ListGroup.Item id='profile-info'>{profileInfo.email}</ListGroup.Item>}
+                        {profileInfo.description && <ListGroup.Item id='profile-info'>{profileInfo.description}</ListGroup.Item>}
+                        {profileInfo.howToKnows && <ListGroup.Item id='profile-info'>{profileInfo.howToKnows}</ListGroup.Item>}
+                        {profileInfo.wantToLearns && <ListGroup.Item id='profile-info'>{profileInfo.wantToLearns}</ListGroup.Item>}
                     </ListGroup>
                         )
                     }
-                   <Link to='/profile/edit' loggedInUser={this.props.loggedInUser}> <Button>EDIT</Button></Link>
+                   <Link to='/profile/edit' loggedInUser={this.props.loggedInUser}> <Button id="button-general">EDIT</Button></Link>
                 </div> 
-             
             </div>
         </div>
         )

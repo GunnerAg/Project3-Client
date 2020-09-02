@@ -1,0 +1,17 @@
+.container-carousel {
+    height: 300px;
+    width: 700px;
+    overflow: hidden;
+}
+.carousel-img {
+    height: -webkit-fill-available;
+    width: -webkit-fill-available; 
+
+}
+
+/* -webkit-fill-available */
+
+/* #carousel-item{
+    display: flex;
+    justify-content: center;
+} */

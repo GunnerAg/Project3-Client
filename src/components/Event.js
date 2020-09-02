@@ -12,19 +12,19 @@ export default class Event extends Component {
             return <Redirect to="/signin" />
         }
        
-        let checkMyEvents = created_by === loggedInUser._id;
+        let checkMyEvents = created_by._id === loggedInUser._id;
         let chekJoinState = joinedEventIds.length && joinedEventIds.includes(_id)
-        let deleteBtn = <Button onClick={() => onDelete(_id)}>DELETE</Button>;
-        let unJoinBtn = <Button onClick={_ => onUnJoin(_id) }>UNJOIN</Button>;
-        let joinBtn = <Button onClick={_ => onJoin(_id)}>JOIN</Button>;
+        let deleteBtn = <Button id="button-general" onClick={() => onDelete(_id)}>DELETE</Button>;
+        let unJoinBtn = <Button id="button-general" onClick={() => onUnJoin(_id) }>UNJOIN</Button>;
+        let joinBtn = <Button id="button-general" onClick={() => onJoin(_id)}>JOIN</Button>;
         let checkFrom = from === 'myEvents' ;
         return (
-            <div >
+            <div className='event-card-item'>
 
                 <Card style={{ width: '18rem' }}>
                 <Card.Img variant="top" src={image} />
                 <Card.Body>
-                    <Card.Title>{title} by {created_by}</Card.Title>
+                    <Card.Title>{title} by {created_by.username} {created_by.secondname}</Card.Title>
                     <Card.Text>
                     {description}
                     </Card.Text>
@@ -34,18 +34,10 @@ export default class Event extends Component {
                     <Card.Text>
                     {keywords}
                     </Card.Text>
-                    {checkFrom? null: (<p>Profile match {percentage}</p>)}
+                    {/* {checkFrom? null: (<p>Profile match {percentage}</p>)} */}
                     {checkFrom ? (checkMyEvents ? deleteBtn : unJoinBtn) : ( chekJoinState ?  unJoinBtn: joinBtn)}
                 </Card.Body>
                 </Card>
-              {/* <p>{title}</p>
-              <p>{description}</p>
-              <p>{date}</p>
-              <p>{image}</p>
-              <p>{keywords}</p>
-              <p>{created_by}</p> */}
-              {/* {checkFrom? null: (<p>Profile match {percentage}</p>)}
-              {checkFrom ? (checkMyEvents ? deleteBtn : unJoinBtn) : ( chekJoinState ?  unJoinBtn: joinBtn)} */}
             </div>
         )
     }

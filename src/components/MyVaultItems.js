@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from 'react-bootstrap';
 import VaultItem from './VaultItem';
+import Loading from './Loading'
 import axios from 'axios';
 import {API_URL} from '../config';
 import SearchBar from './SearchBar';
@@ -9,7 +10,7 @@ import SearchBar from './SearchBar';
 export default class VaultList extends Component {
 
     state={
-        loggedInUser:null,
+        loggedInUser:this.props.loggedInUser,
         vaultItems:[],
         filteredVaultItems:[],
         
@@ -19,10 +20,9 @@ export default class VaultList extends Component {
         axios.get(`${API_URL}/allvault`,{withCredentials:true})
         .then((res)=>{
             let myVaultItems = res.data.filter((item) => {
-                return  item.created_by === this.props.loggedInUser._id
+                return  item.created_by._id === this.state.loggedInUser._id
               })
             this.setState({
-                loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
                 vaultItems: myVaultItems,
                 filteredVaultItems: myVaultItems,
             })
@@ -49,8 +49,20 @@ export default class VaultList extends Component {
         }
     }
 
+    handleDeleteVaultItem=(vaultItemId)=>{
+      axios.delete(`${API_URL}/vault/${vaultItemId}/delete`,{withCredentials:true})
+      .then(()=>{
+       this.getMyVaultItems()
+      })
+    }
+
 
     render() {
+      console.log(this.props.loggedInUser)
+      if(!this.props.loggedInUser){
+        return <Loading/>
+      }
+
         const{filteredVaultItems, loggedInUser} = this.state
         let filteredSearchVaultItems = filteredVaultItems
 
@@ -69,11 +81,11 @@ export default class VaultList extends Component {
           
         return (
             <div>
-                <Link to='/addVaultItem'><Button>Add to the vault</Button></Link>
+                <Link to='/addVaultItem'><Button id="button-general">Add to the vault</Button></Link>
                 <SearchBar onSearch={this.props.onSearch} searchTerm={this.props.searchTerm} from={'MyVaultItems'} />
                 <div>{filteredSearchVaultItems.map((item)=>{
                     return <VaultItem loggedInUser={loggedInUser} favVaultIds={this.props.favVaultIds} from={'MyVaultItems'}
-                        item={item} onErase={this.props.onErase}
+                        item={item} onErase={this.handleDeleteVaultItem}
                     />
                 })
                 }

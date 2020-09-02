@@ -4,7 +4,6 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 import EditProfile from './components/EditProfile';
 import EventList from './components/EventList';
-import CarrouselEvent  from './components/CarrouselEvent';
 import AddEvent from './components/AddEvent';
 import MyEvents from './components/MyEvents';
 import FollowingSearch from './components/FollowingSearch';
@@ -19,6 +18,9 @@ import {Switch, Route, withRouter} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
 import VaultItemDetails from './components/VaultItemDetails';
+import Contact from './components/Contact';
+import About from './components/About';
+import Footer from './components/Footer';
 
 
 
@@ -101,31 +103,45 @@ componentDidMount(){
       })
   }
 
+  editProfile=(userInfo)=>{
+    axios.patch(`${API_URL}/profile/edit`,{userInfo},{withCredentials: true})
+    .then(() => {
+      this.props.history.push('/profile')
+    })
+  }
+
   handleEdit = (e,userInfo) => {
     let uploadData = new FormData()
     uploadData.append('imageUrl', userInfo.image)
-    axios.post(`${API_URL}/upload`, uploadData)
+    if(typeof userInfo.image === 'object'){
+      axios.post(`${API_URL}/upload`, uploadData)
       .then((res)=>{
         userInfo.image = res.data.image
-        axios.patch(`${API_URL}/profile/edit`,{userInfo},{withCredentials: true})
-          .then(() => {
-            this.props.history.push('/profile')
-        })
-      })    
+        this.editProfile(userInfo)
+      })
+    }  
+    else { this.editProfile(userInfo)} 
+  }
+
+  addEvent=(eventDetails)=>{
+    axios.post(`${API_URL}/addEvent`,{eventDetails},{withCredentials:true})
+    .then(()=>{
+      this.props.history.push('/myEvents')
+    })
   }
   
   handleAddEvent=(e,eventDetails)=>{
     console.log(eventDetails)
     let uploadData = new FormData()
     uploadData.append('imageUrl', eventDetails.image)
+    if(typeof eventDetails.image === 'object'){
     axios.post(`${API_URL}/upload`, uploadData)
       .then((res)=>{
         eventDetails.image = res.data.image
-            axios.post(`${API_URL}/addEvent`,{eventDetails},{withCredentials:true})
-              .then(()=>{
-                this.props.history.push('/myEvents')
-              })
-       })    
+         this.addEvent(eventDetails)
+       })
+      }
+      else{this.addEvent(eventDetails)}   
 }
 
   handleSearch = (term, page) => {
@@ -150,28 +166,38 @@ componentDidMount(){
     axios.patch(`${API_URL}/profile/event/unjoin`,{eventId},{withCredentials:true})
     .then(()=>{
       let cloneJoinedEventIds = this.state.joinedEventIds.filter((id) => id !== eventId)
+      let cloneUser = JSON.parse(JSON.stringify(this.state.loggedInUser))
+      cloneUser.joinEvents = cloneJoinedEventIds
       this.setState({
-        joinedEventIds: cloneJoinedEventIds
+        joinedEventIds: cloneJoinedEventIds,
+        loggedInUser: cloneUser
+
       })
     })
   }
 
-  handleDeleteEvent=(eventId)=>{
-    axios.delete(`${API_URL}/event/${eventId}/delete`,{withCredentials:true})
-    .then(()=>{
-      let cloneJoinedEventIds = this.state.joinedEventIds.filter((id) => id !== eventId)  
-      this.setState({
-        joinedEventIds : cloneJoinedEventIds
-      })
-    })
-  }
+  // handleDeleteEvent=(eventId)=>{
+  //   axios.delete(`${API_URL}/event/${eventId}/delete`,{withCredentials:true})
+  //   .then(()=>{
+  //     let cloneJoinedEventIds = this.state.joinedEventIds.filter((id) => id !== eventId)  
+  //     let cloneUser = JSON.parse(JSON.stringify(this.state.loggedInUser))
+  //     cloneUser.joinEvents = cloneJoinedEventIds
+  //     this.setState({
+  //       joinedEventIds : cloneJoinedEventIds,
+  //       loggedInUser: cloneUser
+  //     })
+  //   })
+  // }
 
   handleUnFollow=(userId)=>{
     axios.patch(`${API_URL}/profile/follow/unfollow`,{userId},{withCredentials:true})
     .then(()=>{
       let clonedFollowingUsersIds = this.state.followingUsersIds.filter((id)=> id !==userId)
+      let cloneUser = JSON.parse(JSON.stringify(this.state.loggedInUser))
+      cloneUser.follow = clonedFollowingUsersIds
       this.setState({
-        followingUsersIds : clonedFollowingUsersIds
+        followingUsersIds : clonedFollowingUsersIds,
+        loggedInUser: cloneUser
       })
     })
   }
@@ -181,33 +207,36 @@ componentDidMount(){
     .then(()=>{
         let clonedfollowingUsersIds = JSON.parse(JSON.stringify(this.state.followingUsersIds))
         clonedfollowingUsersIds.push(userId)
+        let cloneUser = JSON.parse(JSON.stringify(this.state.loggedInUser))
+      cloneUser.follow = clonedfollowingUsersIds
         this.setState({
-          followingUsersIds: clonedfollowingUsersIds
+          followingUsersIds: clonedfollowingUsersIds,
+          loggedInUser: cloneUser
         }, () => {
           this.props.history.push('/allusers')})
     }) 
   }
 
-  handleAddFav=(vaultItemId)=>{
-    axios.patch(`${API_URL}/profile/vault/add`,{vaultItemId},{withCredentials:true})
-    .then(()=>{
-      let clonedFavVaultIds = JSON.parse(JSON.stringify(this.state.favVaultIds))
-      clonedFavVaultIds.push(vaultItemId)
-      this.setState({
-        favVaultIds: clonedFavVaultIds
-      })
-    })
-  }
+  // handleAddFav=(vaultItemId)=>{
+  //   axios.patch(`${API_URL}/profile/vault/add`,{vaultItemId},{withCredentials:true})
+  //   .then(()=>{
+  //     let clonedFavVaultIds = JSON.parse(JSON.stringify(this.state.favVaultIds))
+  //     clonedFavVaultIds.push(vaultItemId)
+  //     this.setState({
+  //       favVaultIds: clonedFavVaultIds
+  //     })
+  //   })
+  // }
 
-  handleUnAddFav=(vaultItemId)=>{
-    axios.patch(`${API_URL}/profile/vault/unadd`,{vaultItemId},{withCredentials:true})
-    .then(()=>{
-      let clonedFavVaultIds = this.state.favVaultIds.filter((id) => id !== vaultItemId)
-      this.setState({
-        favVaultIds: clonedFavVaultIds
-      })
-    })
-  }
+  // handleUnAddFav=(vaultItemId)=>{
+  //   axios.patch(`${API_URL}/profile/vault/unadd`,{vaultItemId},{withCredentials:true})
+  //   .then(()=>{
+  //     let clonedFavVaultIds = this.state.favVaultIds.filter((id) => id !== vaultItemId)
+  //     this.setState({
+  //       favVaultIds: clonedFavVaultIds
+  //     })
+  //   })
+  // }
 
   handleAddVaultItem=(e,vaultItemDetails)=>{
     axios.post(`${API_URL}/addVaultItem`,{vaultItemDetails},{withCredentials:true})
@@ -216,21 +245,36 @@ componentDidMount(){
     })
   } 
 
-  handleDeleteVaultItem=(vaultItemId)=>{
-    axios.delete(`${API_URL}/vault/${vaultItemId}/delete`,{withCredentials:true})
-    .then(()=>{
-      this.props.history.push('/profile')
-    })
-  }
+  handleDeleteUser=(userId)=>{
+    console.log('inside',userId)
+    axios.delete(`${API_URL}/profile/${userId}/delete`,{withCredentials:true})
+      .then(()=>{
+        this.setState({
+          loggedInUser: null
+        }, ()=>{
+          this.props.history.push('/')
+        })
+      })
+  } 
+
 
   render() {
     const {loggedInUser,joinedEventIds,followingUsersIds,SearchTerm,SearchPage,favVaultIds} = this.state
     return (
     <div>
       <NavBar loggedInUser={loggedInUser} onLogOut={this.handleLogOut}/>
+      <Footer />
         <Switch >
           <Route exact path="/" render={(routeProps) => {
             return <Home {...routeProps} onSignUp={this.handleSignUp} onSignIn={this.handleSignIn} />
+          }} />
+
+          <Route exact path="/about" render={(routeProps) => {
+            return <About {...routeProps} onSignUp={this.handleSignUp} onSignIn={this.handleSignIn} />
+          }} />
+
+          <Route exact path="/contact" render={(routeProps) => {
+            return <Contact {...routeProps} onSignUp={this.handleSignUp} onSignIn={this.handleSignIn} />
           }} />
 
           <Route exact path="/profile" render ={(routeProps)=>{
@@ -238,15 +282,11 @@ componentDidMount(){
           }}/>
 
           <Route  path="/profile/edit" render ={(routeProps)=>{
-             return <EditProfile loggedInUser={loggedInUser} onEdit={this.handleEdit} {...routeProps}/>
+             return <EditProfile loggedInUser={loggedInUser} onEdit={this.handleEdit} onDeleteUser={this.handleDeleteUser} {...routeProps}/>
           }}/>
 
           <Route exact path="/eventlist"  render ={(routeProps)=>{
             return <EventList SearchPage={SearchPage} SearchTerm={SearchTerm} joinedEventIds={this.state.joinedEventIds} onJoin={this.handleJoin} onUnJoin={this.handleUnJoin} onSearch={this.handleSearch} loggedInUser={loggedInUser} {...routeProps} />
-          }}/>
-
-          <Route exact path="/eventlist"  render ={(routeProps)=>{
-            return <CarrouselEvent loggedInUser={loggedInUser} {...routeProps} />
           }}/>
 
           <Route  path="/myevents"  render ={(routeProps)=>{
@@ -279,7 +319,7 @@ componentDidMount(){
           }}/>
 
           <Route  path="/myvault"  render ={(routeProps)=>{
-             return <MyVaultItems loggedInUser={loggedInUser} SearchPage={SearchPage} onSearch={this.handleSearch} SearchTerm={SearchTerm} favVaultIds={favVaultIds} onErase={this.handleDeleteVaultItem} {...routeProps} />
+             return <MyVaultItems loggedInUser={loggedInUser} SearchPage={SearchPage} onSearch={this.handleSearch} SearchTerm={SearchTerm} favVaultIds={favVaultIds}  {...routeProps} />
           }}/>
 
           <Route  path="/vaultitemdetails/:id" render ={(routeProps)=>{

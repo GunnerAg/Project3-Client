@@ -1,0 +1,21 @@
+.profile-details-section{
+    background:rgba(0, 255, 170, 0.5);
+}
+.profile-details-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+#profile-info{
+    background:rgba(245, 245, 245, 0);
+}
+#profile-pic{
+    width: auto;
+    height: 300px;
+}
+.welcome-message{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}

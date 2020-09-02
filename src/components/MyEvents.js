@@ -4,7 +4,8 @@ import SearchBar from './SearchBar';
 import axios from 'axios';
 import {API_URL} from '../config';
 import { Button } from 'react-bootstrap';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import './Profile.css';
 
 export default class EventList extends Component {
 
@@ -19,7 +20,7 @@ export default class EventList extends Component {
       axios.get(`${API_URL}/events`,{withCredentials:true})
       .then ((res)=>{
         let userEvents = res.data.filter((event) => {
-          return event.created_by === this.props.loggedInUser._id
+          return event.created_by._id === this.props.loggedInUser._id
         })
         // userEvents = userEvents.map((event) => {
         //   let count = 0;
@@ -37,7 +38,7 @@ export default class EventList extends Component {
           events: userEvents,
           loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
           filteredEvents: userEvents,
-          joinedEventIds: this.props.loggedInUser.joinEvents || []
+           joinedEventIds: this.props.loggedInUser.joinEvents || []
         })
       })
     }
@@ -63,6 +64,20 @@ export default class EventList extends Component {
         }
     }
 
+    componentDidUpdate(newProps){
+      if (newProps.joinedEventIds.length !== this.props.joinedEventIds.length ) {
+          this.getEvents()
+
+      }
+  }
+
+  handleDeleteEvent=(eventId)=>{
+    axios.delete(`${API_URL}/event/${eventId}/delete`,{withCredentials:true})
+    .then(()=>{
+        this.getEvents()
+    })
+  }
+
     render() {
    
       let filterSearchEvents = this.state.filteredEvents
@@ -81,13 +96,13 @@ export default class EventList extends Component {
       
         return (
             <div>
-                <Link to='/addEvent'><Button>Add Event</Button></Link>
+                <Link to='/addEvent'><Button id="button-general">Add Event</Button></Link>
                 <SearchBar onSearch={this.props.onSearch} searchTerm={this.props.searchTerm} from={'myEvents'} />
-                <h1> EVENTS </h1>
-                <div style={{display:'flex', justifyContent:'space-arround'}}>
-                {filterSearchEvents.map((event)=>{
-                    return   <Event loggedInUser={this.props.loggedInUser}  joinedEventIds={this.props.joinedEventIds} from={'myEvents'} event={event} btnClass={'DELETE/UNJOIN'} onDelete={this.props.onDelete}  onUnjoin={this.handleUnjoin}/>
+                <div>
+                <div className='event-list-container'>{filterSearchEvents.map((event)=>{
+                    return   <Event loggedInUser={this.props.loggedInUser}  joinedEventIds={this.props.joinedEventIds} from={'myEvents'} event={event} btnClass={'DELETE/UNJOIN'} onDelete={this.handleDeleteEvent}  onUnjoin={this.props.onUnjoin}/>
                 })}
+                </div>
                 </div>
                 {/* <h1> EVENTS </h1>
                 {this.state.userEvents.map((event)=>{

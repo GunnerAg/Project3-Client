@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button,Form } from 'react-bootstrap';
 import axios from 'axios';
 import {API_URL} from '../config';
 
@@ -7,6 +7,7 @@ export default class EditProfile extends Component {
 
     state = {
         profileInfo: {},
+        
      }
       
       componentDidMount(){   
@@ -45,34 +46,52 @@ export default class EditProfile extends Component {
         console.log(clonedProfile)    
         this.props.onEdit(e,clonedProfile)
     }
-
       
     render() {
-        const{ username,secondname,email, description, howToKnows,wantToLearns } = this.state.profileInfo
+        const{ username,secondname,email,_id, description,howToKnows ,wantToLearns } = this.state.profileInfo
         return (
-            <div >
-                <form onSubmit={this.handleSubmit}>
-                    <label>Name</label>
-                    <input onChange={this.onChange} value={username} type='text' name='username'></input>
-                    <label>Secondname</label>
-                    <input onChange={this.onChange} value ={secondname} type='text' name='secondname'></input>
-                    <label>Email</label>
-                    <input onChange={this.onChange} value ={email} type='text' name='email'></input>
-                    <label >Description</label>
-                    <input onChange={this.onChange} value ={description} type='text' name='description'></input>
-                    {/* <label>Image</label>
-                    <input onChange={this.onChange} value ={image} type='text' name='image'></input> */}
-                    <label>Knowledge</label>
-                    <input onChange={this.onChange} value ={howToKnows} type='text' name='howToKnows'></input>
-                    <label>To Learn</label>
-                    <input onChange={this.onChange} value ={wantToLearns} type='text' name='wantToLearns'></input>
-
-                    <label>Image</label>
-                    <input type='file' name='image' ></input>
-                    <Button type='submit'>Edit</Button>
-                </form>
+            <div>
+                <div className='edit-profile-form-container'>
+                    <Form onSubmit={this.handleSubmit}> 
+                    <Form.Group controlId="formGroupUsername">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control onChange={this.onChange} value={username} type='text' name='username'/>
+                    </Form.Group>
+                    <Form.Group controlId="formGroupSecondname">
+                        <Form.Label>Secondname</Form.Label>
+                        <Form.Control onChange={this.onChange} value ={secondname} type='text' name='secondname' />
+                    </Form.Group>
+                    <Form.Group controlId="formGroupEmail">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control onChange={this.onChange} value ={email} type='text' name='email' />
+                    </Form.Group>
+                    <Form.Group controlId="formGroupDescription">
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control onChange={this.onChange} value ={description} type='text' name='description' />
+                    </Form.Group>
+                    <Form.Group controlId="formGroupKnowledge">
+                        <Form.Label>Knowledge</Form.Label>
+                        <Form.Control onChange={this.onChange} value ={howToKnows} type='text' name='howToKnows' />
+                    </Form.Group>
+                    <Form.Group controlId="formGroupToLearn">
+                        <Form.Label>To Learn</Form.Label>
+                        <Form.Control onChange={this.onChange} value ={wantToLearns} type='text' name='wantToLearns' />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.File type='file' name='image' />
+                    </Form.Group>
+                    <Button id="button-general" type='submit'>Edit</Button>
+                    </Form>
+                </div>
+                <div>
+                    <Button onClick={()=>{this.props.onDeleteUser(_id)}} id="button-general" >Delete Account</Button>
+                </div>
             </div>
         )
     }
 }
 
+
+// this.handleDeleteUser(_id)
+
+                

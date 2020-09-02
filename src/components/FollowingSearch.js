@@ -23,13 +23,13 @@ export default class FollowingSearch extends Component {
                 loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
                 allUsers: res.data,
                 unfollowedUsers: filterAllUsers
-            }) 
+            })
         })
     }
 
     getUser = () => {
         axios.get(`${API_URL}/user`,{withCredentials:true})
-        .then ((res)=>{    
+        .then ((res)=>{
           this.setState({
             loggedInUser: res.data,
           }, () => {
@@ -47,18 +47,12 @@ export default class FollowingSearch extends Component {
         }
     }
 
-    // componentDidUpdate(newProps){
-    //     console.log(newProps.followingUsersIds.length)
-    //     console.log(this.props.followingUsersIds.length)
-    //    if( newProps.followingUsersIds.length !== this.props.followingUsersIds.length ){
-    //         if(newProps.loggedInUser){
-    //             this.getAllUsers()
-    //         }
-    //         else {
-    //             this.getUser()
-    //         }
-    //     }
-    // }
+    componentDidUpdate(newProps){
+        if (newProps.followingUsersIds.length !== this.props.followingUsersIds.length ) {
+            this.getAllUsers()
+
+        }
+    }
 
     render() {
         const{ unfollowedUsers, loggedInUser } = this.state
@@ -68,15 +62,17 @@ export default class FollowingSearch extends Component {
             return <div>Loading User . . .  </div>
         }
 
-        let unfollowedSearchUsers = unfollowedUsers
-      
+         let unfollowedSearchUsers = unfollowedUsers
 
-        if(this.props.SearchPage ==='FollowingSearch' && this.props.searchTerm !==''){
+        if(this.props.SearchPage ==='FollowingSearch' && this.props.SearchTerm !==''){
             unfollowedSearchUsers=unfollowedSearchUsers.filter((unfollowed)=>{
                 let bool = false;
                 unfollowed.howToKnows.forEach((howToKnow)=>{
-                    console.log('howtoknow value',howToKnow)
-                    if(howToKnow.toLowerCase().includes(this.props.searchTerm.toLowerCase()))
+                    if(howToKnow.toLowerCase().includes(this.props.SearchTerm.toLowerCase()))
+                    {
+                        bool= true
+                    }
+                    else if(unfollowed.username.toLowerCase().includes(this.props.SearchTerm.toLowerCase()))
                     {
                         bool= true
                     }
@@ -85,10 +81,18 @@ export default class FollowingSearch extends Component {
             })
         }
 
+        // console.log('log 1',unfollowedUsers)
+        // if(this.props.SearchPage ==='FollowingSearch' && this.props.SearchTerm !==''){
+        // unfollowedSearchUsers = unfollowedSearchUsers.filter((user)=>{
+        //     return user.howToKnows.includes(this.props.SearchTerm)
+        // })}
+        // console.log('log 2',unfollowedSearchUsers)
+
+
         return (
             <div >
                 <SearchBar onSearch={onSearch} from={'FollowingSearch'} id='SearchBar' />
-                    <div>{unfollowedUsers.map((user)=>{
+                    <div>{unfollowedSearchUsers.map((user)=>{
                             return <User loggedInUser={loggedInUser} from={'FollowingSearch'} user={user} onFollow={onFollow} />
                         })}
                     </div>

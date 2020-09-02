@@ -1,0 +1,33 @@
+.searchbar{
+    display: flex;
+    justify-content: center;
+}
+.searchbar-input{
+    width:250px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#button-general{
+    margin:10px;
+    background-color: black;
+    color: white;
+    border:none
+}
+.navbar-container{
+    width: 100vw;
+}
+.navbar-logo{
+    width: 200px;
+}
+#navbar{
+    background: black;
+}
+#button-general-bigger{
+    margin:10px;
+    background-color: black;
+    color: white;
+    border:none;
+    width:150px;
+    height: 40px;
+}
+

@@ -8,7 +8,7 @@
     background-color: #103269;
     background: linear-gradient(to bottom, #1f5a8f 1%,#1f5a8f 100%)
   } */
-  #BtnStyle{
+  .BtnStyle{
     display: flex;
     justify-content: center;
     background-color: black;
@@ -41,13 +41,5 @@
       text-align: center;
       width: 400px
     }
-  }
-  
-  .followPic{
-    width: 200px
-  }
-
-  #SearchBar{
-    width: 200px;
   }
 

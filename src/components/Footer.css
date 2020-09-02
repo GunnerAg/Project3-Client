@@ -1,0 +1,21 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    background-color: black;
+    color: white;
+    text-align: center;
+  }
+  .footercont{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100vw;
+    flex-wrap: wrap;
+    list-style-type: none;  
+  }
+  .footericons{
+    margin-top: 5px;
+   
+  }

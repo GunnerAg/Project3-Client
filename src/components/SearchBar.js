@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Main.css'
 
 
 export default class SearchBar extends Component {
@@ -17,12 +18,13 @@ export default class SearchBar extends Component {
 
     render() {
         return (
-            <div>
+            <div className='searchbar'>
                 <input 
                     type="text" 
                     onChange={this.onChange} 
                     placeholder='#Music #Science #Movies...' 
                     value={this.state.searchTerm}
+                    className='searchbar-input'
                     >
                 </input>
             </div>

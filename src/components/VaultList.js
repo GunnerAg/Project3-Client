@@ -47,6 +47,19 @@ export default class VaultList extends Component {
         }
     }
 
+    handleAddFav=(vaultItemId)=>{
+        axios.patch(`${API_URL}/profile/vault/add`,{vaultItemId},{withCredentials:true})
+        .then(()=>{
+            this.getAllVaultItems()
+        //   let clonedFavVaultIds = JSON.parse(JSON.stringify(this.state.favVaultIds))
+        //   clonedFavVaultIds.push(vaultItemId)
+        //   this.setState({
+        //     favVaultIds: clonedFavVaultIds
+        //   })
+        })
+      }
+
+
     render() {
         const{ loggedInUser, filteredVaultItems } = this.state
         const{ SearchPage, SearchTerm } =  this.props
@@ -72,9 +85,9 @@ export default class VaultList extends Component {
         return (
             <div>
                 <SearchBar onSearch={this.props.onSearch} searchTerm={this.props.searchTerm} from={'VaultList'} />
-                <div>{filterSearchVaultItems.map((item)=>{
+                <div>{this.state.vaultItems.map((item)=>{
                     return <VaultItem loggedInUser={loggedInUser} favVaultIds={this.props.favVaultIds} from={'VaultList'}
-                        item={item} onAdd={this.props.onAdd}
+                        item={item} onAdd={this.handleAddFav}
                     />
                 })
                 }

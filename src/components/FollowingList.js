@@ -47,6 +47,13 @@ export default class FollowingList extends Component {
         }
     }
 
+    componentDidUpdate(oldProps){
+        if (oldProps.followingUsersIds.length !== this.props.followingUsersIds.length ) {
+            this.getFollowing()
+
+        }
+    }
+
     render() {
         const{filteredFollowing}=this.state
 
@@ -72,11 +79,14 @@ export default class FollowingList extends Component {
         return (
             <div>   
                 <SearchBar onSearch={this.props.onSearch} from={'FollowingList'} />
-            <div>{filterSearchFollowing.map((user)=>{
-                return <User loggedInUser={this.state.loggedInUser} followingUsersIds={this.props.followingUsersIds} from={'FollowingList'} user={user} onUnFollow={this.props.onUnFollow}/>
-            })}
+                <div>
+                {
+                    filterSearchFollowing.map((user)=>{
+                        return <User loggedInUser={this.state.loggedInUser} followingUsersIds={this.props.followingUsersIds} from={'FollowingList'} user={user} onUnFollow={this.props.onUnFollow}/>
+                    })
+                }
+                </div>
             </div>
-        </div>
         )
     }
 }

@@ -13,16 +13,16 @@ export default class VaultFavs extends Component {
     }
 
     getFavVaultItems=()=>{
-        axios.get(`${API_URL}/allvault`,{withCredentials:true})
+        axios.get(`${API_URL}/favvaults`,{withCredentials:true})
         .then((res)=>{
-            let vaultFavs =res.data.filter((vaultFavItem)=> {
-                return this.props.loggedInUser.favVault.includes(vaultFavItem._id)
-            })
-
+            // let vaultFavs =res.data.filter((vaultFavItem)=> {
+            //     return this.props.loggedInUser.favVault.includes(vaultFavItem._id)
+            // })
+            console.log('Here --->', res.data)
             this.setState({
                 loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
-                vaultFavItems: vaultFavs,
-                filteredVaulFavtItems: vaultFavs,
+                vaultFavItems: res.data,
+                filteredVaulFavtItems: res.data,
             })
         })
     }
@@ -46,6 +46,20 @@ export default class VaultFavs extends Component {
           this.getUser()
         }
     }
+
+    
+      handleUnAddFav=(vaultItemId)=>{
+        axios.patch(`${API_URL}/profile/vault/unadd`,{vaultItemId},{withCredentials:true})
+        .then(()=>{
+            console.log('inside')
+            this.getUser()
+
+        //   let clonedFavVaultIds = this.state.favVaultIds.filter((id) => id !== vaultItemId)
+        //   this.setState({
+        //     favVaultIds: clonedFavVaultIds
+        //   })
+        })
+      }
 
 
     render() {
@@ -73,7 +87,7 @@ export default class VaultFavs extends Component {
             <div>   
             <SearchBar onSearch={this.props.onSearch} searchTerm={this.props.searchTerm} from={'VaultFavs'} />
             <div>{filteredSearchVaulFavtItems.map((item)=>{
-            return <VaultItem loggedInUser={loggedInUser} favVaultIds={this.props.favVaultIds} from={'VaultFavs'} item={item} onDetails={this.props.onDetails} onUnAddVaultFav={this.props.onUnAddVaultFav} onDelete={this.props.onDelete} />
+            return <VaultItem loggedInUser={loggedInUser} favVaultIds={this.props.favVaultIds} from={'VaultFavs'} item={item} onDetails={this.props.onDetails} onUnAddVaultFav={this.handleUnAddFav} />
             
             })}
             </div>

@@ -3,6 +3,7 @@ import Event from './Event';
 import axios from 'axios';
 import {API_URL} from '../config';
 import SearchBar from './SearchBar';
+import './Profile.css';
 
 
 export default class EventList extends Component {
@@ -19,7 +20,7 @@ export default class EventList extends Component {
       axios.get(`${API_URL}/events`,{withCredentials:true})
       .then ((res)=>{
         let notUserEvents = res.data.filter((event) => {
-          return event.created_by !== this.props.loggedInUser._id
+          return event.created_by._id !== this.props.loggedInUser._id
         })
         notUserEvents = notUserEvents.map((event) => {
           let count = 0;
@@ -60,17 +61,21 @@ export default class EventList extends Component {
           this.getUser()
         }
     }
+    
+    componentDidUpdate(newProps){
+      if (newProps.joinedEventIds.length !== this.props.joinedEventIds.length ) {
+          this.getEvents()
 
-    componentDidUpdate() {
-      console.log("component updated")
-      this.getEvents()
-    }
+      }
+  }
+
+  
 
     render() {
         const {filteredEvents}=this.state 
 
         if (!this.state.loggedInUser) {
-          return <div>Loading User . . .  </div>
+          return <div>Loading . . .  </div>
         } 
 
         let filterSearchEvents = filteredEvents
@@ -88,9 +93,9 @@ export default class EventList extends Component {
         }   
 
         return (
-        <div>
+        <div >
             <SearchBar onSearch={this.props.onSearch} from={'allEvents'} searchTerm={this.props.searchTerm} />
-            <div style={{display:'flex', justifyContent:'space-between' }}>{filterSearchEvents.map((event)=>{
+            <div className='event-list-container'>{filterSearchEvents.map((event)=>{
                    return <Event loggedInUser={this.state.loggedInUser} from={'allEvents'} event={event} joinedEventIds={this.props.joinedEventIds}  onJoin={this.props.onJoin}  onUnJoin={this.props.onUnJoin}/>
                })}
             </div>

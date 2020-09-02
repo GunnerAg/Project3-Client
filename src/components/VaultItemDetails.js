@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import {API_URL} from '../config';
+import PlayerMedia from './PlayerMedia';
+import './VaultItem.css'
 
 export default class VaultItemDetails extends Component {
     state={
@@ -21,15 +23,18 @@ export default class VaultItemDetails extends Component {
     render() {
         
         const{title,description,fileUrl,keywords,created_by,}= this.state.vaultItem
+        let myRegx = '^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$'
+        let checkMedia = fileUrl === myRegx
+        console.log(fileUrl)
 
         return (
-            <div>                 
+            <div className='vault-item-details-container'>                 
                 <p>TITLE<br/>{title}</p>
                 <p>DESCRIPTION<br/>{description}</p>
                 <p>KEYWORDS<br/>{keywords}</p>
-                <p>CREATOR<br/>{created_by}</p>
-                <p>DOCUMENTS<br/>{fileUrl}</p>                           
-               
+                {/* (<p>CREATOR<br/>{created_by.username}</p>) */}
+                {/* <p>DOCUMENTS<br/>{fileUrl}</p>    */}
+                {checkMedia? <PlayerMedia vaultItem={this.state.vaultItem}/>: null}
             </div>
         )
     }

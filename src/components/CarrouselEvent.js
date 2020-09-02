@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {API_URL} from '../config';
-// import CarouselItem from './CarouselItem';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import Carousel from 'react-bootstrap/Carousel'
+import './Carousel.css'
+import './Main.css'
+import { Button } from 'react-bootstrap';
+import {Link} from 'react-router-dom';
+
 
 
 export default class CarrouselEvent extends Component {
@@ -21,7 +24,7 @@ export default class CarrouselEvent extends Component {
       axios.get(`${API_URL}/events`,{withCredentials:true})
       .then ((res)=>{
         let notUserEvents = res.data.filter((event) => {
-          return event.created_by !== this.props.loggedInUser._id
+          return event.created_by._id !== this.props.loggedInUser._id
         })
         notUserEvents = notUserEvents.map((event) => {
           let count = 0;
@@ -65,49 +68,31 @@ export default class CarrouselEvent extends Component {
 
     render() {
         const {filteredEvents}=this.state 
-
-        if (!this.state.loggedInUser) {
-          return <div>Loading User . . .  </div>
-        } 
-
-        let filterSearchEvents = filteredEvents
-   
-        if (this.props.SearchPage === 'allEvents' && this.props.SearchTerm !== ''){
-          filterSearchEvents  = filterSearchEvents.filter((event) => {
-            let bool = false;
-            event.keywords.forEach((keyword) => {
-              if (keyword.toLowerCase().includes(this.props.SearchTerm.toLowerCase())) {
-                bool = true
-              }
-            })
-            return bool
-          })
-        }   
-
+       
         return (
-                      <Carousel>
+                      <Carousel className="container-carousel">
                       {
-                        filterSearchEvents.map((event)=>{
+                        filteredEvents.map((event)=>{
                           return (
-                            <Carousel.Item>
+                            <Carousel.Item id="carousel-item">
                               <img
-                              className
-                              // className="d-block w-20"
+                              className="d-block w-20 carousel-img"
                                src={event.image}
-                             // src={'https://image.shutterstock.com/image-photo/natural-yellow-butterfly-isolated-on-260nw-1270220995.jpg'}
                               alt={event.title}
                               />
                               <Carousel.Caption>
-                              <h3>{event.title} by {event.created_by}</h3>
+                              <h3>{event.title} by {event.created_by.username} {event.created_by.secondname}</h3>
                               <p>{event.description}</p>
+                              {/* <Button id="button-general" onClick={() => this.props.onJoin(event._id)}>JOIN</Button> */}
+                              {this.props.joinedEventIds.length && this.props.joinedEventIds.includes(event._id) ?  <Button id="button-general-bigger" onClick={() => this.props.onUnJoin(event._id) }>UNJOIN</Button>:  <Button id="button-general-bigger" onClick={() => this.props.onJoin(event._id)}>JOIN</Button>}
                               </Carousel.Caption>
                           </Carousel.Item>
+                          
                           )
                         })
                       }
                
-                      </Carousel>
-                    
+                      </Carousel>           
         )
     }
 }

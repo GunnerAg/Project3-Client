@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Form,Row,Col } from 'react-bootstrap';
 
 
 
@@ -23,19 +24,27 @@ export default class AddVaultItem extends Component {
         const{ title,description,fileUrl,keywords } = this.state.vaultItemDetails
         return (
             <div>
-                  <form onSubmit={(e)=>{
+                    <Form onSubmit={(e)=>{
                       e.preventDefault()
                       this.props.onAddVaultItem(e,this.state.vaultItemDetails)}}>
-                    <label>Title</label>
-                    <input  onChange={this.onChange} value={title} type='text' name='title'></input>
-                    <label>Description</label>
-                    <input onChange={this.onChange} value={description} type='text' name='description'></input>
-                    <label >File</label>
-                    <input onChange={this.onChange} value={fileUrl} type='text' name='fileUrl'></input>
-                    <label>Keywords</label>
-                    <input onChange={this.onChange} value={keywords} type='text' name='keywords'></input>
-                    <input type='submit' value={'ADD'} />
-                </form>
+                        <Row>
+                            <Col>
+                                <Form.Control placeholder="Title" onChange={this.onChange} value={title} type='text' name='title'/>
+                            </Col>
+                            <Col>
+                                <Form.Control placeholder="description" onChange={this.onChange} value={description} type='text' name='description'/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Control placeholder="Link to videos" onChange={this.onChange} value={fileUrl} type='text' name='fileUrl'/>
+                            </Col>
+                            <Col>
+                                <Form.Control placeholder="Keywords" onChange={this.onChange} value={keywords} type='text' name='keywords'/>
+                            </Col>
+                        </Row>
+                        <input type='submit' value={'ADD'} />
+                    </Form>
             </div>
         )
     }

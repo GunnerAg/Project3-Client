@@ -1,0 +1,61 @@
+.event-button-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 20px;
+    width: 25vw;
+}
+.event-list-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding:20px
+}
+.event-card-item{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.event-carousel-container{
+    background: rgb(255, 241, 160);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.follow-carousel-container{
+    background:rgb(200, 155, 211);
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.follow-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 20px;
+    width: 25vw;
+}
+.vault-button-container{
+    display: flex;
+    justify-content: space-evenly;
+    background: rgb(221, 221, 221);
+    flex-wrap: wrap;
+
+}
+.edit-profile-form-container{
+    display: flex;
+    margin-left: 20px;
+    margin-right:20px;
+    justify-content: center;
+    margin-top: 50px;
+}
+.vault-image{
+    height: 150px;
+}

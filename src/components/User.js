@@ -11,9 +11,9 @@ export default class User extends Component {
             return <Redirect to='/signin'/>
         }
         
-        
-        let unfollowBtn = <Button onClick={()=>onUnFollow(_id)}>UNFOLLOW</Button>
-        let followBtn = <Button onClick={()=>onFollow(_id)}>FOLLOW</Button>
+        //TODO: Fix css
+        let unfollowBtn = <Button id="button-general" onClick={()=>onUnFollow(_id)}>UNFOLLOW</Button>
+        let followBtn = <Button id="button-general" onClick={()=>onFollow(_id)}>FOLLOW</Button>
         let checkFrom = from === 'FollowingList'
         return (
             <div style={{display:'flex', justifyContent:'space-evenly', flexWrap:'wrap'}}>
