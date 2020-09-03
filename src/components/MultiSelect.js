@@ -37,7 +37,7 @@ export default class CreatableInputOnly extends Component {
           inputValue: '',
           value: [...value, createOption(inputValue)],
         }, () => {
-            this.props.onChange(event, true, this.props.name, this.state.value)
+            this.props.onChange(null, true, this.props.name, this.state.value)
         });
         event.preventDefault();
         

@@ -30,6 +30,7 @@ export default class EditProfile extends Component {
        let value = event ? event.currentTarget.value: '';
        let property = event? event.currentTarget.name: '';
        let clonedProfile = JSON.parse(JSON.stringify(this.state.profileInfo))
+       console.log(value)
        if (property === 'image') {
         clonedProfile[property] =  event.currentTarget.files[0]
        }
