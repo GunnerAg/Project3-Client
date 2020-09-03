@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, Image } from 'react-bootstrap';
+import './User.css'
 
 export default class User extends Component {
     render() {
@@ -16,17 +17,17 @@ export default class User extends Component {
         let followBtn = <Button id="button-general" onClick={()=>onFollow(_id)}>FOLLOW</Button>
         let checkFrom = from === 'FollowingList'
         return (
-            <div style={{display:'flex', justifyContent:'space-evenly', flexWrap:'wrap'}}>
-                <div>
+            <div className='users-to-follow'>
+                <div className='user-image'>
+                    <Image id="follow-pic" src={image} thumbnail />
+                </div>
+                <div className='user-details'>
                     <p>{username}</p>
                     <p>{secondname}</p>
                     <p>{email}</p>
                     <p>{description}</p>
                     <p>{howToKnows}</p>
                     { checkFrom ? unfollowBtn : followBtn }
-                </div>
-                <div>
-                    <Image className="followPic" src={image} thumbnail />
                 </div>
             </div>
         )

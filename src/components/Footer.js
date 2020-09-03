@@ -4,8 +4,8 @@ import './Footer.css'
 export default class Footer extends Component {
     render() {
         return (
-            <div >
-                <div className="footer">
+            <div className="footer">
+                <div>
                     <ul className="footercont">
 
                         <li className="footericons">

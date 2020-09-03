@@ -1,0 +1,11 @@
+.socialmedia-share{
+display: flex;
+justify-content: space-evenly;
+}
+.event-card-item{
+    display: flex;
+    justify-content: center;
+}
+.event-add-form{
+    margin: 50px;
+}

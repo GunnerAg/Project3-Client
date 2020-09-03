@@ -58,8 +58,9 @@ export default class VaultList extends Component {
 
 
     render() {
-      console.log(this.props.loggedInUser)
-      if(!this.props.loggedInUser){
+
+     
+      if(!this.state.loggedInUser){
         return <Loading/>
       }
 

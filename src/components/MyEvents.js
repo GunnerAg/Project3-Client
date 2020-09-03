@@ -104,10 +104,6 @@ export default class EventList extends Component {
                 })}
                 </div>
                 </div>
-                {/* <h1> EVENTS </h1>
-                {this.state.userEvents.map((event)=>{
-                    return   <Event event={event} btnClass={'DELETE/UNJOIN'} onClick={this.handleChange}/>
-                })} */}
                
             </div>
         )

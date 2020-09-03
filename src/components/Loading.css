@@ -1,5 +1,11 @@
-.loading-container{
-    width: 300px;
+#loading-container{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    text-align: center;
 }
+#loading-btn{
+    background: black;
+    color: red;
+}
+

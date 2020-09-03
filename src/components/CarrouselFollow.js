@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import {API_URL} from '../config';
+import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel from 'react-bootstrap/Carousel'
 import './Carousel.css'
@@ -50,8 +51,8 @@ export default class CarrouselFollow extends Component {
 
     render() {
         const {unfollowedUsers}=this.state 
-    
     return (
+      
         <Carousel className="container-carousel" >
         {
             unfollowedUsers.map((user)=>{
@@ -67,6 +68,7 @@ export default class CarrouselFollow extends Component {
                 <h3>{user.username} {user.secondname}</h3>
                 <p>{user.description}</p>
                 <p>{user.howToKnows}</p>
+                { this.props.loggedInUser.follow.includes(user._id) ? <Button id="button-general" disabled >ADDED TO FOLLOWING</Button> : <Button id="button-general" onClick={()=>this.props.onFollow(user._id)}>FOLLOW</Button> }
                 </Carousel.Caption>
             </Carousel.Item>
             )

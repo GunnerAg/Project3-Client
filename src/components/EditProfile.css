@@ -1,0 +1,20 @@
+.edit-btns{
+ display: flex;
+ justify-content: space-evenly;
+}
+#button-general-final-delete{
+    margin:10px;
+    background-color:red;
+    color: white;
+    border:none
+}
+.edit-profile-form-container{
+    display: flex;
+    margin-left: 20px;
+    margin-right:20px;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+

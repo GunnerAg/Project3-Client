@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Form,Row,Col } from 'react-bootstrap';
+import { Form,Button } from 'react-bootstrap';
+import MultiSelect from './MultiSelect'
+import './VaultItem.css'
 
 
 
@@ -10,21 +12,29 @@ export default class AddVaultItem extends Component {
      }
       
 
-    onChange=(e)=>{
-       let value = e.currentTarget.value;
-       let property = e.currentTarget.name;
+    onChange=(e, isMulti, name, val)=>{
+       let value = e ? e.currentTarget.value: '';
+       let property =  e? e.currentTarget.name: '';
        let clonedItem = JSON.parse(JSON.stringify(this.state.vaultItemDetails))
        clonedItem[property]=value
+       if(isMulti){
+           value= val ? val.map((element)=>element.value): []
+           clonedItem[name]=value
+       }
+       else {
+            clonedItem[property]=value
+       }
+
        this.setState({
         vaultItemDetails:clonedItem
        })
     }
 
     render() {
-        const{ title,description,fileUrl,keywords } = this.state.vaultItemDetails
+        const{ title,description,fileUrl=[],keywords=[] } = this.state.vaultItemDetails
         return (
-            <div>
-                    <Form onSubmit={(e)=>{
+            <div className='add-vault-item'>
+                    {/* <Form onSubmit={(e)=>{
                       e.preventDefault()
                       this.props.onAddVaultItem(e,this.state.vaultItemDetails)}}>
                         <Row>
@@ -36,15 +46,40 @@ export default class AddVaultItem extends Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col>
-                                <Form.Control placeholder="Link to videos" onChange={this.onChange} value={fileUrl} type='text' name='fileUrl'/>
+                             <Col>
+                             <Form.Control placeholder="File link" onChange={this.onChange} value={fileUrl} type='text' name='fileUrl'/>
+                                <MultiSelect onChange={this.onChange} value={fileUrl} name='fileUrl' />
                             </Col>
                             <Col>
                                 <Form.Control placeholder="Keywords" onChange={this.onChange} value={keywords} type='text' name='keywords'/>
                             </Col>
                         </Row>
                         <input type='submit' value={'ADD'} />
-                    </Form>
+                    </Form> */}
+
+                <Form onSubmit={(e)=>{
+                    e.preventDefault()
+                    this.props.onAddVaultItem(e,this.state.vaultItemDetails)}}> 
+                <Form.Group controlId="formGroupUsername">
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control onChange={this.onChange} value={title} type='text' name='title'/>
+                </Form.Group>
+                <Form.Group controlId="formGroupUsername">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control  onChange={this.onChange} value={description} type='text' name='description'/>
+                </Form.Group>
+                <Form.Group controlId="formGroupUsername">
+                    <Form.Label>File links</Form.Label>
+                    <MultiSelect onChange={this.onChange} value={fileUrl} name='fileUrl' />
+                </Form.Group>
+                <Form.Group controlId="formGroupUsername">
+                    <Form.Label>Keywords</Form.Label>
+                    <MultiSelect onChange={this.onChange} value={keywords} type='text' name='keywords'/>
+                </Form.Group>
+                <Button id="button-general" type='submit'>Add</Button>
+                </Form>
+
+
             </div>
         )
     }

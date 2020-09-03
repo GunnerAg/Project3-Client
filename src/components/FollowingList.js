@@ -70,11 +70,14 @@ export default class FollowingList extends Component {
                     if(howToKnow.toLowerCase().includes(this.props.SearchTerm.toLowerCase())){
                         bool=true
                     }
+                    else if(user.username.toLowerCase().includes(this.props.SearchTerm.toLowerCase()))
+                    {
+                        bool= true
+                    }
                 })
                 return bool
             })
         }
-
 
         return (
             <div>   

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Button,Form } from 'react-bootstrap';
 import axios from 'axios';
+import MultiSelect from './MultiSelect'
 import {API_URL} from '../config';
+import './EditProfile.css'
 
 export default class EditProfile extends Component {
 
     state = {
         profileInfo: {},
+        warning:false,
         
      }
       
@@ -22,16 +25,23 @@ export default class EditProfile extends Component {
             })
       }
 
-    onChange=(event)=>{
-       let value = event.currentTarget.value;
-       let property = event.currentTarget.name;
+    onChange=(event, isMulti, name, val)=>{
+        console.log(val)
+       let value = event ? event.currentTarget.value: '';
+       let property = event? event.currentTarget.name: '';
        let clonedProfile = JSON.parse(JSON.stringify(this.state.profileInfo))
        if (property === 'image') {
         clonedProfile[property] =  event.currentTarget.files[0]
        }
+       else if (isMulti) {
+        // val===null? val='':
+        value = val ? val.map((elem) => elem.value): []
+        clonedProfile[name] = value
+       }
        else {
         clonedProfile[property]=value
        }
+    
        this.setState({
           profileInfo:clonedProfile
        })
@@ -46,9 +56,16 @@ export default class EditProfile extends Component {
         console.log(clonedProfile)    
         this.props.onEdit(e,clonedProfile)
     }
+
+    handleWarning=()=>{
+        this.setState({
+            warning: !this.state.warning
+        })
+    }
       
+
     render() {
-        const{ username,secondname,email,_id, description,howToKnows ,wantToLearns } = this.state.profileInfo
+        const{ username,secondname,email,_id, description,howToKnows=[] ,wantToLearns=[] } = this.state.profileInfo
         return (
             <div>
                 <div className='edit-profile-form-container'>
@@ -71,27 +88,29 @@ export default class EditProfile extends Component {
                     </Form.Group>
                     <Form.Group controlId="formGroupKnowledge">
                         <Form.Label>Knowledge</Form.Label>
-                        <Form.Control onChange={this.onChange} value ={howToKnows} type='text' name='howToKnows' />
+                        <MultiSelect  onChange={this.onChange} value ={howToKnows} name='howToKnows' />
                     </Form.Group>
                     <Form.Group controlId="formGroupToLearn">
                         <Form.Label>To Learn</Form.Label>
-                        <Form.Control onChange={this.onChange} value ={wantToLearns} type='text' name='wantToLearns' />
+                        <MultiSelect  onChange={this.onChange} value ={wantToLearns} name='wantToLearns'  />
                     </Form.Group>
                     <Form.Group>
                         <Form.File type='file' name='image' />
                     </Form.Group>
+                    <div className='edit-btns'>
                     <Button id="button-general" type='submit'>Edit</Button>
+                     { this.state.warning ? 
+                        (<div><Button  onClick={()=>{this.props.onDeleteUser(_id)}} id="button-general-final-delete" >Yes</Button> 
+                        <Button  onClick={this.handleWarning} id="button-general">No</Button></div>
+                        ):
+                        <Button  onClick={this.handleWarning} id="button-general" >Delete Account</Button>}
+                    
+                    </div>
                     </Form>
-                </div>
-                <div>
-                    <Button onClick={()=>{this.props.onDeleteUser(_id)}} id="button-general" >Delete Account</Button>
                 </div>
             </div>
         )
     }
 }
-
-
-// this.handleDeleteUser(_id)
 
                 

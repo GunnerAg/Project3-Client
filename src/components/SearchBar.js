@@ -22,7 +22,7 @@ export default class SearchBar extends Component {
                 <input 
                     type="text" 
                     onChange={this.onChange} 
-                    placeholder='#Music #Science #Movies...' 
+                    placeholder='Search by keywords or usernames' 
                     value={this.state.searchTerm}
                     className='searchbar-input'
                     >

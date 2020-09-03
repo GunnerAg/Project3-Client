@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    flex-wrap: wrap;
+    min-width: 300px;
     padding: 20px;
     width: 25vw;
 }
@@ -11,7 +11,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    padding:20px
+    padding:20px;
+    margin-bottom: 100px;
 }
 .event-card-item{
     padding-left: 20px;
@@ -36,17 +37,20 @@
 .follow-button-container{
     display: flex;
     justify-content: center;
-    align-items: center;
     flex-direction: column;
-    flex-wrap: wrap;
+    min-width: 300px;
     padding: 20px;
     width: 25vw;
 }
 .vault-button-container{
     display: flex;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px ;
     justify-content: space-evenly;
     background: rgb(221, 221, 221);
     flex-wrap: wrap;
+    
 
 }
 .edit-profile-form-container{
@@ -58,4 +62,108 @@
 }
 .vault-image{
     height: 150px;
+   
 }
+.test{
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.my-vault-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
+}
+.the-vault-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
+}
+.fav-vault-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+@media (max-width: 620px) {
+    .wrapper-carousel{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 320px;
+    flex-wrap: wrap;
+    }
+  }
+  
+  @media (min-width: 620px) and (max-width: 999px) {
+    .wrapper-carousel{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 360px;
+    flex-wrap: wrap;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .wrapper-carousel{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 400px;
+    flex-wrap: wrap;
+    }
+  }
+  .sections-btn-container{
+      display: flex;
+      align-items: center;
+  }
+  
+/* .inner-text{
+    max-width: 33%;
+} */
+
+/* .the-vault-info{
+    display: flex;
+    position: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 100px;
+}
+.icon-container{
+    display: flex;
+    justify-content: center;
+}
+.description-container{
+    display: flex;
+    justify-content: center;
+} */
+/* .vault-links{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.vault-link1{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-right: 200px;
+}
+.vault-link2{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-left: 200vw;
+} */

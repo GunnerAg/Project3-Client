@@ -3,6 +3,7 @@ import Event from './Event';
 import axios from 'axios';
 import {API_URL} from '../config';
 import SearchBar from './SearchBar';
+import MyMap from './MyMap'
 import './Profile.css';
 
 
@@ -16,7 +17,6 @@ export default class EventList extends Component {
     }
 
     getEvents = () => {
-      console.log(this.props.loggedInUser)
       axios.get(`${API_URL}/events`,{withCredentials:true})
       .then ((res)=>{
         let notUserEvents = res.data.filter((event) => {
@@ -31,16 +31,33 @@ export default class EventList extends Component {
               }
             })
           })
+         
           event.percentage = count ? (count/ event.keywords.length) * 100 : 0
           return event
         })
-        this.setState({
-          events: notUserEvents,
-          loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
-          filteredEvents: notUserEvents,
+
+        let following = notUserEvents.filter((e) => {
+          return this.props.loggedInUser.follow.includes(e.created_by)
+        }).sort((a,b) => {
+          return b.percentage - a.percentage
         })
+        let unFollowing = notUserEvents.filter((e) => {
+          return !this.props.loggedInUser.follow.includes(e.created_by)
+        }).sort((a,b) => {
+          return b.percentage - a.percentage
+        })
+
+        this.setState({
+          events: [...following, ...unFollowing],
+          loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
+          filteredEvents: [...following, ...unFollowing],
+        })
+        console.log(notUserEvents)
       })
     }
+
+ 
+    
 
     getUser = () => {
       axios.get(`${API_URL}/user`,{withCredentials:true})
@@ -54,6 +71,7 @@ export default class EventList extends Component {
     }
 
     componentDidMount(){
+      console.log(this.props.loggedInUser)
         if(this.props.loggedInUser){
          this.getEvents()
         }
@@ -73,7 +91,7 @@ export default class EventList extends Component {
 
     render() {
         const {filteredEvents}=this.state 
-
+        console.log(this.props.loggedInUser)
         if (!this.state.loggedInUser) {
           return <div>Loading . . .  </div>
         } 
@@ -87,6 +105,10 @@ export default class EventList extends Component {
               if (keyword.toLowerCase().includes(this.props.SearchTerm.toLowerCase())) {
                 bool = true
               }
+              else if(event.created_by.username.toLowerCase().includes(this.props.SearchTerm.toLowerCase()))
+                    {
+                        bool= true
+                    }
             })
             return bool
           })
@@ -95,6 +117,8 @@ export default class EventList extends Component {
         return (
         <div >
             <SearchBar onSearch={this.props.onSearch} from={'allEvents'} searchTerm={this.props.searchTerm} />
+            {this.state.events.length !== 0 && <MyMap events={this.state.events}/> }
+            
             <div className='event-list-container'>{filterSearchEvents.map((event)=>{
                    return <Event loggedInUser={this.state.loggedInUser} from={'allEvents'} event={event} joinedEventIds={this.props.joinedEventIds}  onJoin={this.props.onJoin}  onUnJoin={this.props.onUnJoin}/>
                })}

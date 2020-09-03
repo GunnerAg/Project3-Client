@@ -20,7 +20,7 @@
     width: 200px;
 }
 #navbar{
-    background: black;
+    background: rgb(75, 75, 75);
 }
 #button-general-bigger{
     margin:10px;
@@ -30,4 +30,11 @@
     width:150px;
     height: 40px;
 }
+#home-page-button{
+    margin:10px;
+    background-color: rgb(75, 75, 75);
+    color: white;
+    border:none
+}
+
 

@@ -81,18 +81,13 @@ export default class FollowingSearch extends Component {
             })
         }
 
-        // console.log('log 1',unfollowedUsers)
-        // if(this.props.SearchPage ==='FollowingSearch' && this.props.SearchTerm !==''){
-        // unfollowedSearchUsers = unfollowedSearchUsers.filter((user)=>{
-        //     return user.howToKnows.includes(this.props.SearchTerm)
-        // })}
-        // console.log('log 2',unfollowedSearchUsers)
-
+    
 
         return (
             <div >
                 <SearchBar onSearch={onSearch} from={'FollowingSearch'} id='SearchBar' />
-                    <div>{unfollowedSearchUsers.map((user)=>{
+                    <div className='users-list'>
+                        {unfollowedSearchUsers.map((user)=>{
                             return <User loggedInUser={loggedInUser} from={'FollowingSearch'} user={user} onFollow={onFollow} />
                         })}
                     </div>

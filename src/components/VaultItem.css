@@ -8,3 +8,9 @@
     justify-content: center;
     max-width: 100vw;
 }
+.add-vault-item{
+    margin: 50px;
+}
+.external-link{
+    margin-bottom: 25px;
+}

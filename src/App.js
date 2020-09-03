@@ -42,17 +42,25 @@ state = {
   
 }
 
+getUserDetails = (showProfile) => {
+  axios.get(`${API_URL}/user`,{withCredentials:true})
+  .then ((res)=>{
+    this.setState({
+      loggedInUser: res.data,
+      joinedEventIds: res.data.joinEvents || [],
+      followingUsersIds: res.data.follow || [],
+      favVaultIds: res.data.favVault || [],
+    }, () => {
+      if (showProfile) {
+        this.props.history.push('/profile')
+      }
+    })
+  })
+}
+
 componentDidMount(){
   if(!this.state.loggedInUser){
-    axios.get(`${API_URL}/user`,{withCredentials:true})
-      .then ((res)=>{
-        this.setState({
-          loggedInUser: res.data,
-          joinedEventIds: res.data.joinEvents || [],
-          followingUsersIds: res.data.follow || [],
-          favVaultIds: res.data.favVault || [],
-        })
-      })
+    this.getUserDetails()
   }
 }
 
@@ -106,7 +114,7 @@ componentDidMount(){
   editProfile=(userInfo)=>{
     axios.patch(`${API_URL}/profile/edit`,{userInfo},{withCredentials: true})
     .then(() => {
-      this.props.history.push('/profile')
+      this.getUserDetails(true)
     })
   }
 
@@ -176,19 +184,7 @@ componentDidMount(){
     })
   }
 
-  // handleDeleteEvent=(eventId)=>{
-  //   axios.delete(`${API_URL}/event/${eventId}/delete`,{withCredentials:true})
-  //   .then(()=>{
-  //     let cloneJoinedEventIds = this.state.joinedEventIds.filter((id) => id !== eventId)  
-  //     let cloneUser = JSON.parse(JSON.stringify(this.state.loggedInUser))
-  //     cloneUser.joinEvents = cloneJoinedEventIds
-  //     this.setState({
-  //       joinedEventIds : cloneJoinedEventIds,
-  //       loggedInUser: cloneUser
-  //     })
-  //   })
-  // }
-
+ 
   handleUnFollow=(userId)=>{
     axios.patch(`${API_URL}/profile/follow/unfollow`,{userId},{withCredentials:true})
     .then(()=>{
@@ -212,31 +208,11 @@ componentDidMount(){
         this.setState({
           followingUsersIds: clonedfollowingUsersIds,
           loggedInUser: cloneUser
-        }, () => {
-          this.props.history.push('/allusers')})
+        })
     }) 
   }
 
-  // handleAddFav=(vaultItemId)=>{
-  //   axios.patch(`${API_URL}/profile/vault/add`,{vaultItemId},{withCredentials:true})
-  //   .then(()=>{
-  //     let clonedFavVaultIds = JSON.parse(JSON.stringify(this.state.favVaultIds))
-  //     clonedFavVaultIds.push(vaultItemId)
-  //     this.setState({
-  //       favVaultIds: clonedFavVaultIds
-  //     })
-  //   })
-  // }
 
-  // handleUnAddFav=(vaultItemId)=>{
-  //   axios.patch(`${API_URL}/profile/vault/unadd`,{vaultItemId},{withCredentials:true})
-  //   .then(()=>{
-  //     let clonedFavVaultIds = this.state.favVaultIds.filter((id) => id !== vaultItemId)
-  //     this.setState({
-  //       favVaultIds: clonedFavVaultIds
-  //     })
-  //   })
-  // }
 
   handleAddVaultItem=(e,vaultItemDetails)=>{
     axios.post(`${API_URL}/addVaultItem`,{vaultItemDetails},{withCredentials:true})
@@ -263,7 +239,6 @@ componentDidMount(){
     return (
     <div>
       <NavBar loggedInUser={loggedInUser} onLogOut={this.handleLogOut}/>
-      <Footer />
         <Switch >
           <Route exact path="/" render={(routeProps) => {
             return <Home {...routeProps} onSignUp={this.handleSignUp} onSignIn={this.handleSignIn} />
@@ -278,7 +253,7 @@ componentDidMount(){
           }} />
 
           <Route exact path="/profile" render ={(routeProps)=>{
-             return <Profile  SearchPage={SearchPage} SearchTerm={SearchTerm} joinedEventIds={joinedEventIds} onJoin={this.handleJoin} onUnJoin={this.handleUnJoin} onSearch={this.handleSearch} loggedInUser={loggedInUser} {...routeProps} />
+             return <Profile  SearchPage={SearchPage} SearchTerm={SearchTerm} joinedEventIds={joinedEventIds} onJoin={this.handleJoin} onUnJoin={this.handleUnJoin} onSearch={this.handleSearch} loggedInUser={loggedInUser} onFollow={this.handleFollow} onUnFollow={this.handleUnFollow} from={this.props.from}{...routeProps} />
           }}/>
 
           <Route  path="/profile/edit" render ={(routeProps)=>{
@@ -325,8 +300,8 @@ componentDidMount(){
           <Route  path="/vaultitemdetails/:id" render ={(routeProps)=>{
              return <VaultItemDetails  loggedInUser={loggedInUser} favVaultIds={favVaultIds} {...routeProps} />
           }}/>
-
         </Switch>
+        <Footer />
     </div>
    )
   }

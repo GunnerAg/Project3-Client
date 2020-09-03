@@ -83,7 +83,6 @@ export default class CarrouselEvent extends Component {
                               <Carousel.Caption>
                               <h3>{event.title} by {event.created_by.username} {event.created_by.secondname}</h3>
                               <p>{event.description}</p>
-                              {/* <Button id="button-general" onClick={() => this.props.onJoin(event._id)}>JOIN</Button> */}
                               {this.props.joinedEventIds.length && this.props.joinedEventIds.includes(event._id) ?  <Button id="button-general-bigger" onClick={() => this.props.onUnJoin(event._id) }>UNJOIN</Button>:  <Button id="button-general-bigger" onClick={() => this.props.onJoin(event._id)}>JOIN</Button>}
                               </Carousel.Caption>
                           </Carousel.Item>

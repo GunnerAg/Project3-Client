@@ -13,22 +13,30 @@ export default class ProfileDetails extends Component {
 
     state = {
         profileInfo: {},
+        howToKnows:[],
+        wantToLearns:[],
      }
       
       componentDidMount(){   
             axios.get(`${API_URL}/profile`,{withCredentials:true})
             .then ((res)=>{
               this.setState({
-                profileInfo: res.data
+                profileInfo: res.data,
+                wantToLearns:res.data.wantToLearns,
+                howToKnows:res.data.howToKnows
+                
               })
               })
               .catch((err)=>{
                 return err
-            })
+            })   
       }
+      
           
         render() {
-            const {profileInfo} = this.state
+            let howToKnow=this.state.howToKnows.toString().split('')
+            let wantToLearn=this.state.wantToLearns.toString().split('')
+            const{profileInfo} = this.state
             return (
             <div className='profile-details-section'>
             <div className='welcome-message'>
@@ -43,16 +51,15 @@ export default class ProfileDetails extends Component {
                 <div >
                     {
                         profileInfo  && (
-                            
                     <ListGroup className='list-group' variant="flush" >
                         {profileInfo.username && <ListGroup.Item id='profile-info'>{profileInfo.username}</ListGroup.Item>}
                         {profileInfo.secondname && <ListGroup.Item id='profile-info'>{profileInfo.secondname}</ListGroup.Item>}
                         {profileInfo.email && <ListGroup.Item id='profile-info'>{profileInfo.email}</ListGroup.Item>}
                         {profileInfo.description && <ListGroup.Item id='profile-info'>{profileInfo.description}</ListGroup.Item>}
-                        {profileInfo.howToKnows && <ListGroup.Item id='profile-info'>{profileInfo.howToKnows}</ListGroup.Item>}
-                        {profileInfo.wantToLearns && <ListGroup.Item id='profile-info'>{profileInfo.wantToLearns}</ListGroup.Item>}
+                        {profileInfo.howToKnows && <ListGroup.Item id='profile-info'>{howToKnow}</ListGroup.Item>}
+                        {profileInfo.wantToLearns && <ListGroup.Item id='profile-info'>{wantToLearn}</ListGroup.Item>}
                     </ListGroup>
-                        )
+                        ) 
                     }
                    <Link to='/profile/edit' loggedInUser={this.props.loggedInUser}> <Button id="button-general">EDIT</Button></Link>
                 </div> 
