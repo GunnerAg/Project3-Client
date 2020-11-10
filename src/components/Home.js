@@ -3,8 +3,6 @@ import ButtonDisplayForm from './ButtonDisplayForm';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Footer from './Footer'
-// import Creative from '../../public/creative_thinking.png'
-// import Teach from '../../public/teach.png'
 import './Home.css'
 
 
@@ -29,8 +27,6 @@ export default class Home extends Component {
   
     render() {
 
-            
-
        return (
          <div>
             <div>
@@ -38,7 +34,6 @@ export default class Home extends Component {
                
                <div className="back"></div>
                <div className="front"></div>
-
                   <div className="headingContainer" >
                       <h2><strong>THE PERFECT PLACE TO LEARN</strong></h2>
                       <h4>Join an active community of users. Learn new skills. Teach others what you already know.</h4>
@@ -57,6 +52,9 @@ export default class Home extends Component {
                         :<><ButtonDisplayForm case='LOGIN' hideOrShow={this.showSignIn}/></>
                         }
                     </div>
+                  </div>
+                  <div>
+                  {this.props.errorMsg && <h4 className='errorMsg'>{this.props.errorMsg}</h4>}
                   </div>
                 </div>
             </div>

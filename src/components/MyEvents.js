@@ -16,24 +16,12 @@ export default class EventList extends Component {
     }
     
     getEvents = () => {
-      console.log(this.props.loggedInUser)
       axios.get(`${API_URL}/events`,{withCredentials:true})
       .then ((res)=>{
         let userEvents = res.data.filter((event) => {
           return event.created_by._id === this.props.loggedInUser._id
         })
-        // userEvents = userEvents.map((event) => {
-        //   let count = 0;
-        //   event.keywords.forEach((keyword) => {
-        //     this.props.loggedInUser.wantToLearns.forEach((wantToLearn) => {
-        //       if (wantToLearn.toLowerCase() === keyword.toLowerCase()) {
-        //         count++
-        //       }
-        //     })
-        //   })
-        //   event.percentage = count ? (count/ event.keywords.length) * 100: 0
-        //   return event
-        // })
+     
         this.setState({
           events: userEvents,
           loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
@@ -49,13 +37,13 @@ export default class EventList extends Component {
         this.setState({
           loggedInUser: res.data
         }, () => {
-          console.log(this.state.loggedInUser)
           this.getEvents()
         })
       })
     }
 
     componentDidMount(){
+      document.body.style.backgroundColor = 'rgb(255, 241, 160)'
         if(this.props.loggedInUser){
          this.getEvents()
         }
@@ -95,7 +83,7 @@ export default class EventList extends Component {
       }
       
         return (
-            <div>
+            <div className='myevents-container'>
                 <Link to='/addEvent'><Button id="button-general">Add Event</Button></Link>
                 <SearchBar onSearch={this.props.onSearch} searchTerm={this.props.searchTerm} from={'myEvents'} />
                 <div>

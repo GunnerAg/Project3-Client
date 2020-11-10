@@ -20,7 +20,6 @@ export default class CarrouselEvent extends Component {
     }
 
     getEvents = () => {
-      console.log(this.props.loggedInUser)
       axios.get(`${API_URL}/events`,{withCredentials:true})
       .then ((res)=>{
         let notUserEvents = res.data.filter((event) => {
@@ -80,13 +79,12 @@ export default class CarrouselEvent extends Component {
                                src={event.image}
                               alt={event.title}
                               />
-                              <Carousel.Caption>
-                              <h3>{event.title} by {event.created_by.username} {event.created_by.secondname}</h3>
-                              <p>{event.description}</p>
+                              <Carousel.Caption id='caption-carousel'>
+                              <h3><strong>{event.title} by <h5>{event.created_by.username} {event.created_by.secondname}</h5></strong></h3>
+                              <p><strong>{event.keywords && event.keywords.join(', ').split(',').slice(0,7)}</strong></p>
                               {this.props.joinedEventIds.length && this.props.joinedEventIds.includes(event._id) ?  <Button id="button-general-bigger" onClick={() => this.props.onUnJoin(event._id) }>UNJOIN</Button>:  <Button id="button-general-bigger" onClick={() => this.props.onJoin(event._id)}>JOIN</Button>}
                               </Carousel.Caption>
                           </Carousel.Item>
-                          
                           )
                         })
                       }

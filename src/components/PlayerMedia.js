@@ -14,7 +14,7 @@ export default class PlayerMedia extends Component {
         return (
             <div className='video-container'>
                 <ReactPlayer controls={true} url={this.props.fileUrl}/>
-            </div>
+            </div> 
         )
     }
 }

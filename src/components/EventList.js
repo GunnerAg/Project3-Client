@@ -52,7 +52,6 @@ export default class EventList extends Component {
           loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
           filteredEvents: [...following, ...unFollowing],
         })
-        console.log(notUserEvents)
       })
     }
 
@@ -71,7 +70,7 @@ export default class EventList extends Component {
     }
 
     componentDidMount(){
-      console.log(this.props.loggedInUser)
+      document.body.style.backgroundColor = 'rgb(255, 241, 160)'
         if(this.props.loggedInUser){
          this.getEvents()
         }
@@ -91,7 +90,6 @@ export default class EventList extends Component {
 
     render() {
         const {filteredEvents}=this.state 
-        console.log(this.props.loggedInUser)
         if (!this.state.loggedInUser) {
           return <div>Loading . . .  </div>
         } 
@@ -115,7 +113,7 @@ export default class EventList extends Component {
         }   
 
         return (
-        <div >
+        <div className='allevent-container'>
             <SearchBar onSearch={this.props.onSearch} from={'allEvents'} searchTerm={this.props.searchTerm} />
             {this.state.events.length !== 0 && <MyMap events={this.state.events}/> }
             

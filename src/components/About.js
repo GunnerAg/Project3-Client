@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Jumbotron,Button } from 'react-bootstrap'
 import './About.css'
+import './Main.css'
 
 export default class About extends Component {
     render() {
         return (
-            <div>
+            <div className='content-container'>
                 <Jumbotron>
                     <h1>About The Vault</h1>
                     <p>
@@ -13,14 +14,14 @@ export default class About extends Component {
                     </p>
 
                     <p>
-                        <Button variant="primary" href="/about">About page</Button>
+                        <Button id='button-general' href="/contact">Contact</Button>
                     </p>                    
                 </Jumbotron>
 
                 <div className="ironhack-section">
                     <h1>What is IronHack?</h1>
                     <p>IronHack is one of the best options to join a bootcamp and learn web development, take this proyect as a reference of what you would be doing!</p>
-                    <Button variant="primary" href="https://www.ironhack.com">IronHack Web</Button>
+                    <div className='' ><Button id='button-link' href="https://www.ironhack.com">IronHack Web</Button></div>
                 </div>
                 
             </div>

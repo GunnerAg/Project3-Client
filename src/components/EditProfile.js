@@ -14,6 +14,7 @@ export default class EditProfile extends Component {
      }
       
       componentDidMount(){   
+        document.body.style.backgroundColor = 'rgba(0, 255, 170, 0.5)'
             axios.get(`${API_URL}/profile`,{withCredentials:true})
             .then ((res)=>{
               this.setState({
@@ -26,16 +27,13 @@ export default class EditProfile extends Component {
       }
 
     onChange=(event, isMulti, name, val)=>{
-        console.log(val)
        let value = event ? event.currentTarget.value: '';
        let property = event? event.currentTarget.name: '';
        let clonedProfile = JSON.parse(JSON.stringify(this.state.profileInfo))
-       console.log(value)
        if (property === 'image') {
         clonedProfile[property] =  event.currentTarget.files[0]
        }
        else if (isMulti) {
-        // val===null? val='':
         value = val ? val.map((elem) => elem.value): []
         clonedProfile[name] = value
        }
@@ -54,7 +52,6 @@ export default class EditProfile extends Component {
         if (e.currentTarget.image.value) {
             clonedProfile.image = e.currentTarget.image.files[0]
         }     
-        console.log(clonedProfile)    
         this.props.onEdit(e,clonedProfile)
     }
 
@@ -68,7 +65,7 @@ export default class EditProfile extends Component {
     render() {
         const{ username,secondname,email,_id, description,howToKnows=[] ,wantToLearns=[] } = this.state.profileInfo
         return (
-            <div>
+            <div className='edit-form-container'>
                 <div className='edit-profile-form-container'>
                     <Form onSubmit={this.handleSubmit}> 
                     <Form.Group controlId="formGroupUsername">

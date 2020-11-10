@@ -18,7 +18,6 @@ export default class FollowingSearch extends Component {
             let filterAllUsers = res.data.filter((user)=>{
                 return this.props.loggedInUser.follow.includes(user._id) === false && user._id !== this.props.loggedInUser._id
             })
-            console.log(filterAllUsers)
             this.setState({
                 loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
                 allUsers: res.data,
@@ -39,6 +38,7 @@ export default class FollowingSearch extends Component {
       }
 
     componentDidMount(){
+        document.body.style.backgroundColor = 'rgb(200, 155, 211)'
         if(this.props.loggedInUser){
          this.getAllUsers()
         }
@@ -84,7 +84,7 @@ export default class FollowingSearch extends Component {
     
 
         return (
-            <div >
+            <div className='follow-search-container'>
                 <SearchBar onSearch={onSearch} from={'FollowingSearch'} id='SearchBar' />
                     <div className='users-list'>
                         {unfollowedSearchUsers.map((user)=>{

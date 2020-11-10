@@ -14,15 +14,14 @@ export default class Footer extends Component {
                         </a>
                         </li>
 
-
                         <li className="footericons">
-                        <a href="#">
+                        <a href="https://twitter.com/GunnerAndersen2">
                         <img src='https://res.cloudinary.com/dzzpwrdae/image/upload/v1598959534/twitter_di8al5.png' alt='Twitter'/>
                         </a>
                         </li>
 
                         <li className="footericons">
-                        <a href="#">
+                        <a href="https://www.instagram.com/gunnerandersengil1992/">
                         <img src='https://res.cloudinary.com/dzzpwrdae/image/upload/v1598959534/instagram_ywgtxs.png' alt='Instagram'/>
                         </a>
                         </li>

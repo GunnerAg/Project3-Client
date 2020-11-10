@@ -1,4 +1,5 @@
 .container-carousel {
+    
     height: 300px;
     width: 700px;
     overflow: hidden;
@@ -8,6 +9,11 @@
     width: -webkit-fill-available; 
 
 }
+.carousel-caption{
+   color:black !important;
+}
+
+
 
 /* -webkit-fill-available */
 

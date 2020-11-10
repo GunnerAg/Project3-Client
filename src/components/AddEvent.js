@@ -42,7 +42,6 @@ export default class AddEvent extends Component {
             clonedEvent.image = e.currentTarget.image.files[0]
         }
         let [latitude, longitude] =  clonedEvent.location? clonedEvent.location.split(', '): []
-        console.log(RegEx.test(latitude), RegEx.test(longitude))
         if(!RegEx.exec(latitude) || !RegEx.exec(longitude) ){
             this.setState({
                 errorMsg:'Enter a valid location format'
@@ -60,7 +59,6 @@ export default class AddEvent extends Component {
         let month = String(currentDate.getMonth() + 1).padStart(2, '0');
         let year = currentDate.getFullYear();
         currentDate = year + '-' + month + '-' + day + '';
-        console.log(currentDate)
         return (
             <div className='event-add-form'>
                 {this.state.errorMsg && this.state.errorMsg}

@@ -34,13 +34,11 @@ export default class ProfileDetails extends Component {
       
           
         render() {
-            let howToKnow=this.state.howToKnows.toString().split('')
-            let wantToLearn=this.state.wantToLearns.toString().split('')
             const{profileInfo} = this.state
             return (
             <div className='profile-details-section'>
             <div className='welcome-message'>
-            <h1>Hi there {profileInfo.username} welcome to your profile</h1>
+            <h2>Welcome {profileInfo.username}! </h2>
             </div>
             <div className='profile-details-container'>
                 <div className="profile-pic" >
@@ -56,8 +54,8 @@ export default class ProfileDetails extends Component {
                         {profileInfo.secondname && <ListGroup.Item id='profile-info'>{profileInfo.secondname}</ListGroup.Item>}
                         {profileInfo.email && <ListGroup.Item id='profile-info'>{profileInfo.email}</ListGroup.Item>}
                         {profileInfo.description && <ListGroup.Item id='profile-info'>{profileInfo.description}</ListGroup.Item>}
-                        {profileInfo.howToKnows && <ListGroup.Item id='profile-info'>{howToKnow}</ListGroup.Item>}
-                        {profileInfo.wantToLearns && <ListGroup.Item id='profile-info'>{wantToLearn}</ListGroup.Item>}
+                        {profileInfo.howToKnows && <ListGroup.Item id='profile-info'>{profileInfo.howToKnows && profileInfo.howToKnows.join(', ')}</ListGroup.Item>}
+                        {profileInfo.wantToLearns && <ListGroup.Item id='profile-info'>{profileInfo.wantToLearns && profileInfo.wantToLearns.join(', ')}</ListGroup.Item>}
                     </ListGroup>
                         ) 
                     }

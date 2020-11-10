@@ -6,7 +6,7 @@ export default class Contact extends Component {
     render() {
         return (
             <div className='contact-container'>
-                <div>
+                <div className='card-container'>
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="https://res.cloudinary.com/dzzpwrdae/image/upload/v1597336285/zebkdkp0fd0y5j4ht3dv.jpg" />
                         <Card.Body>
@@ -18,7 +18,7 @@ export default class Contact extends Component {
                         </Card>                
                 </div>
 
-                <div>
+                <div className='card-container'>
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="https://res.cloudinary.com/dzzpwrdae/image/upload/v1597336294/jmr9ztkjj8dhtaj6oi8g.jpg" />
                         <Card.Body>

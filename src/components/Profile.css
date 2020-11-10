@@ -15,10 +15,14 @@
     margin-bottom: 100px;
 }
 .event-card-item{
+    display: flex;
+    text-align: center;
+    padding-bottom:20px;
     padding-left: 20px;
     padding-right: 20px;
 }
 .event-carousel-container{
+    border: rgb(255, 217, 0)solid 1px;
     background: rgb(255, 241, 160);
     display: flex;
     flex-direction: row;
@@ -27,6 +31,7 @@
     justify-content: space-evenly;
 }
 .follow-carousel-container{
+    border: rgb(194, 80, 223) solid 1px;
     background:rgb(200, 155, 211);
     display: flex;
     justify-content: space-evenly;
@@ -42,17 +47,30 @@
     padding: 20px;
     width: 25vw;
 }
+@media (max-width: 599px) {
 .vault-button-container{
+    border: rgb(121, 121, 121) 1px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px ;
+    justify-content: space-evenly;
+    background: rgb(221, 221, 221);
+    flex-wrap: wrap;}
+}
+@media (min-width: 600px) {
+.vault-button-container{
+    border: rgb(121, 121, 121) 1px solid;
     display: flex;
     align-items: center;
     padding-top: 50px;
     padding-bottom: 50px ;
     justify-content: space-evenly;
     background: rgb(221, 221, 221);
-    flex-wrap: wrap;
-    
-
+    flex-wrap: wrap;}
 }
+
 .edit-profile-form-container{
     display: flex;
     margin-left: 20px;
@@ -61,8 +79,8 @@
     margin-top: 50px;
 }
 .vault-image{
-    height: 150px;
-   
+    height: 200px;
+
 }
 .test{
     padding-top: 50px;
@@ -129,41 +147,3 @@
       display: flex;
       align-items: center;
   }
-  
-/* .inner-text{
-    max-width: 33%;
-} */
-
-/* .the-vault-info{
-    display: flex;
-    position: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 100px;
-}
-.icon-container{
-    display: flex;
-    justify-content: center;
-}
-.description-container{
-    display: flex;
-    justify-content: center;
-} */
-/* .vault-links{
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
-.vault-link1{
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-right: 200px;
-}
-.vault-link2{
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-left: 200vw;
-} */

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import CreatableSelect from 'react-select/creatable';
 
 const components = {
@@ -27,7 +26,6 @@ export default class CreatableInputOnly extends Component {
     this.setState({ inputValue });
   };
   handleKeyDown = (event) => {
-    console.log('he')
     const { inputValue, value } = this.state;
     if (!inputValue) return;
     switch (event.key) {
@@ -56,7 +54,6 @@ export default class CreatableInputOnly extends Component {
 
   render() {
     const { inputValue, value } = this.state;
-    console.log(this.props.value )
     return (
       <CreatableSelect
         components={components}

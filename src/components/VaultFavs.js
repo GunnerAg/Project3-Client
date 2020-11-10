@@ -15,14 +15,38 @@ export default class VaultFavs extends Component {
     getFavVaultItems=()=>{
         axios.get(`${API_URL}/favvaults`,{withCredentials:true})
         .then((res)=>{
-            // let vaultFavs =res.data.filter((vaultFavItem)=> {
-            //     return this.props.loggedInUser.favVault.includes(vaultFavItem._id)
-            // })
-            console.log('Here --->', res.data)
+         this.setState({
+          vaultFavItems:res.data
+         })
+          this.state.vaultFavItems = this.state.vaultFavItems.map((item) => {
+            let count = 0;
+            item.keywords.forEach((keyword) => {
+              this.props.loggedInUser.wantToLearns.forEach((wantToLearn) => {
+                if (wantToLearn.toLowerCase() === keyword.toLowerCase()) {
+                  count++
+                }
+              })
+            })
+           
+            item.percentage = count ? (count/ item.keywords.length) * 100 : 0
+            return item
+          })
+  
+          let followfavs = this.state.vaultFavItems.filter((e) => {
+            return this.props.loggedInUser.follow.includes(e.created_by)
+          }).sort((a,b) => {
+            return b.percentage - a.percentage
+          })
+          let unfollowfavs = this.state.vaultFavItems.filter((e) => {
+            return !this.props.loggedInUser.follow.includes(e.created_by)
+          }).sort((a,b) => {
+            return b.percentage - a.percentage
+          })
+
             this.setState({
                 loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
-                vaultFavItems: res.data,
-                filteredVaulFavtItems: res.data,
+                vaultFavItems: [...followfavs,...unfollowfavs],
+                filteredVaulFavtItems: [...followfavs,...unfollowfavs]
             })
         })
     }
@@ -51,13 +75,7 @@ export default class VaultFavs extends Component {
       handleUnAddFav=(vaultItemId)=>{
         axios.patch(`${API_URL}/profile/vault/unadd`,{vaultItemId},{withCredentials:true})
         .then(()=>{
-            console.log('inside')
             this.getUser()
-
-        //   let clonedFavVaultIds = this.state.favVaultIds.filter((id) => id !== vaultItemId)
-        //   this.setState({
-        //     favVaultIds: clonedFavVaultIds
-        //   })
         })
       }
 

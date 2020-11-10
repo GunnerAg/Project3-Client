@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel from 'react-bootstrap/Carousel'
 import './Carousel.css'
+import './Main.css'
 
 export default class CarrouselFollow extends Component {
 
@@ -20,7 +21,6 @@ export default class CarrouselFollow extends Component {
             let filterAllUsers = res.data.filter((user)=>{
                 return this.props.loggedInUser.follow.includes(user._id) === false && user._id !== this.props.loggedInUser._id
             })
-            console.log(filterAllUsers)
             this.setState({
                 loggedInUser: this.state.loggedInUser || this.props.loggedInUser,
                 allUsers: res.data,
@@ -59,16 +59,15 @@ export default class CarrouselFollow extends Component {
             return (
               <Carousel.Item>
                 <img
-                // className="FollowCarouselImg"
                 className="d-block w-20 carousel-img"
                 src={user.image}
                 alt={user.username}
                 />
+              
                 <Carousel.Caption>
-                <h3>{user.username} {user.secondname}</h3>
-                <p>{user.description}</p>
-                <p>{user.howToKnows}</p>
-                { this.props.loggedInUser.follow.includes(user._id) ? <Button id="button-general" disabled >ADDED TO FOLLOWING</Button> : <Button id="button-general" onClick={()=>this.props.onFollow(user._id)}>FOLLOW</Button> }
+                <h5><strong>{user.username} {user.secondname}</strong></h5>
+                <p><strong>{user.howToKnows && user.howToKnows.join(', ').split(',').slice(0,7)}</strong></p>
+                { this.props.loggedInUser.follow.includes(user._id) ? <Button id="button-general-bigger" disabled >ADDED</Button> : <Button id="button-general-bigger" onClick={()=>this.props.onFollow(user._id)}>FOLLOW</Button> }
                 </Carousel.Caption>
             </Carousel.Item>
             )

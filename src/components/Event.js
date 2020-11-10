@@ -13,7 +13,6 @@ export default class Event extends Component {
     render() {
         const{title, description, date, image, keywords, created_by, percentage, _id } = this.props.event
         const{loggedInUser, joinedEventIds, from, onDelete, onJoin, onUnJoin}=this.props
-        let keyword=keywords.toString().split('')
         if (!loggedInUser) {
             return <Redirect to="/signin" />
         }
@@ -41,13 +40,13 @@ export default class Event extends Component {
                     </Card.Text>
                     <Card.Title><strong>keywords</strong></Card.Title>
                     <Card.Text>
-                    {keyword}
+                    {keywords && keywords.join(', ')}
                     </Card.Text>
-                    {checkFrom ? null:( <div><Card.Title><strong>Matching</strong></Card.Title> <Card.Text>{percentage}%</Card.Text></div>)}
+                    {checkFrom ? null:( <div><Card.Title><strong>Matching</strong></Card.Title> <Card.Text>{Math.floor(percentage)}%</Card.Text></div>)}
                     {checkFrom ? (checkMyEvents ? deleteBtn : unJoinBtn) : ( chekJoinState ?  unJoinBtn: joinBtn)}
                     <div className='socialmedia-share'>
-                        <FacebookShareButton url={'https://the-vault.herokuapp.com/myevents'}><FacebookIcon size={25}/></FacebookShareButton>
-                        <WhatsappShareButton url={'https://the-vault.herokuapp.com/myevents'}><WhatsappIcon size={25}/></WhatsappShareButton>
+                        <FacebookShareButton url={'https://the-vault-project.herokuapp.com/myevents'}><FacebookIcon size={25}/></FacebookShareButton>
+                        <WhatsappShareButton url={'https://the-vault-project.herokuapp.com/myevents'}><WhatsappIcon size={25}/></WhatsappShareButton>
                     </div>
                 </Card.Body>
                 </Card>

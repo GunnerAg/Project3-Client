@@ -84,6 +84,11 @@ componentDidMount(){
           this.props.history.push('/profile')
         })
       })
+      .catch((err)=>{
+        this.setState({
+          errorMsg: err.response.data.errorMessage
+        })
+      })
   }
 
   handleSignUp = (e) => {
@@ -96,6 +101,11 @@ componentDidMount(){
           loggedInUser: res.data
         }, () => {
           this.props.history.push('/profile')
+        })
+      })
+      .catch((err)=>{
+        this.setState({
+          errorMsg: err.response.data.errorMessage
         })
       })
   }
@@ -139,7 +149,6 @@ componentDidMount(){
   }
   
   handleAddEvent=(e,eventDetails)=>{
-    console.log(eventDetails)
     let uploadData = new FormData()
     uploadData.append('imageUrl', eventDetails.image)
     if(typeof eventDetails.image === 'object'){
@@ -184,7 +193,6 @@ componentDidMount(){
     })
   }
 
- 
   handleUnFollow=(userId)=>{
     axios.patch(`${API_URL}/profile/follow/unfollow`,{userId},{withCredentials:true})
     .then(()=>{
@@ -212,8 +220,6 @@ componentDidMount(){
     }) 
   }
 
-
-
   handleAddVaultItem=(e,vaultItemDetails)=>{
     axios.post(`${API_URL}/addVaultItem`,{vaultItemDetails},{withCredentials:true})
     .then(()=>{
@@ -222,7 +228,6 @@ componentDidMount(){
   } 
 
   handleDeleteUser=(userId)=>{
-    console.log('inside',userId)
     axios.delete(`${API_URL}/profile/${userId}/delete`,{withCredentials:true})
       .then(()=>{
         this.setState({
@@ -241,7 +246,7 @@ componentDidMount(){
       <NavBar loggedInUser={loggedInUser} onLogOut={this.handleLogOut}/>
         <Switch >
           <Route exact path="/" render={(routeProps) => {
-            return <Home {...routeProps} onSignUp={this.handleSignUp} onSignIn={this.handleSignIn} />
+            return <Home {...routeProps} onSignUp={this.handleSignUp} errorMsg={this.state.errorMsg} onSignIn={this.handleSignIn} />
           }} />
 
           <Route exact path="/about" render={(routeProps) => {

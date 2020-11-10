@@ -34,29 +34,6 @@ export default class AddVaultItem extends Component {
         const{ title,description,fileUrl=[],keywords=[] } = this.state.vaultItemDetails
         return (
             <div className='add-vault-item'>
-                    {/* <Form onSubmit={(e)=>{
-                      e.preventDefault()
-                      this.props.onAddVaultItem(e,this.state.vaultItemDetails)}}>
-                        <Row>
-                            <Col>
-                                <Form.Control placeholder="Title" onChange={this.onChange} value={title} type='text' name='title'/>
-                            </Col>
-                            <Col>
-                                <Form.Control placeholder="description" onChange={this.onChange} value={description} type='text' name='description'/>
-                            </Col>
-                        </Row>
-                        <Row>
-                             <Col>
-                             <Form.Control placeholder="File link" onChange={this.onChange} value={fileUrl} type='text' name='fileUrl'/>
-                                <MultiSelect onChange={this.onChange} value={fileUrl} name='fileUrl' />
-                            </Col>
-                            <Col>
-                                <Form.Control placeholder="Keywords" onChange={this.onChange} value={keywords} type='text' name='keywords'/>
-                            </Col>
-                        </Row>
-                        <input type='submit' value={'ADD'} />
-                    </Form> */}
-
                 <Form onSubmit={(e)=>{
                     e.preventDefault()
                     this.props.onAddVaultItem(e,this.state.vaultItemDetails)}}> 

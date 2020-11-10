@@ -1,6 +1,20 @@
 .ironhack-section{
     display: flex;
-    margin-top: 100px;
+    margin-top: 50px;
     flex-direction: column;
     text-align: center;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+#button-link{
+    margin:10px;
+    background-color: black;
+    color: white;
+    border:none;
+    width: 150px;
+}
+.content-container{
+    display: flex;
+   justify-content: center;
+   text-align: center;
 }

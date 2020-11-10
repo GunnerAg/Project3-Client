@@ -5,6 +5,7 @@ import {API_URL} from '../config';
 import SearchBar from './SearchBar';
 
 
+
 export default class FollowingList extends Component {
 
     state={
@@ -39,6 +40,7 @@ export default class FollowingList extends Component {
       }
 
     componentDidMount(){
+        document.body.style.backgroundColor = 'rgb(200, 155, 211)'
         if(this.props.loggedInUser){
          this.getFollowing()
         }
@@ -80,7 +82,7 @@ export default class FollowingList extends Component {
         }
 
         return (
-            <div>   
+            <div className='following-list-container'>   
                 <SearchBar onSearch={this.props.onSearch} from={'FollowingList'} />
                 <div>
                 {

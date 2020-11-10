@@ -21,11 +21,14 @@ export default class User extends Component {
                     <Image id="follow-pic" src={image} thumbnail />
                 </div>
                 <div className='user-details'>
-                    <p>{username}</p>
-                    <p>{secondname}</p>
+                    <h5><stong>Username</stong></h5>
+                    <p>{username} {secondname}</p>
+                    <h5><stong>Email</stong></h5>
                     <p>{email}</p>
-                    <p>{description}</p>
-                    <p>{howToKnows}</p>
+                    {description? (<div className='description-info'><h5><stong>Description</stong></h5><p>{description}</p></div>):null}
+                    <h5><stong>Knowledge</stong></h5>
+                    <p>{howToKnows && howToKnows.join(', ')}</p>
+
                     { checkFrom ? unfollowBtn : followBtn }
                 </div>
             </div>

@@ -23,12 +23,11 @@
     background: rgb(75, 75, 75);
 }
 #button-general-bigger{
-    margin:10px;
     background-color: black;
     color: white;
     border:none;
-    width:150px;
-    height: 40px;
+    width:100px;
+    height: 35px;
 }
 #home-page-button{
     margin:10px;

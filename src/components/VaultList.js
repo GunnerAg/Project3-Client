@@ -21,8 +21,7 @@ export default class VaultList extends Component {
                 return  this.props.loggedInUser.favVault.includes(item._id) === false
               })
 
-
-
+              
               notFavItems = notFavItems.map((item) => {
                 let count = 0;
                 item.keywords.forEach((keyword) => {

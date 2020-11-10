@@ -17,7 +17,7 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
     flex-direction: row;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     margin-left: 25px;
     margin-right: 25px;
 }
@@ -36,4 +36,11 @@
 }
 .user-image{
     margin-right: 25px;
+}
+.description-info{
+
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
 }
